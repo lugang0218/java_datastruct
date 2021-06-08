@@ -12,4 +12,5 @@ public interface List<T> {
     T get(int index);
     T set(int index,T newValue);
     boolean add(int index,T value);
+    T remove(int index);
 }

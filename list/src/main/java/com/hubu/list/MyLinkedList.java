@@ -33,12 +33,80 @@ public class MyLinkedList<T> extends AbstractList<T> implements List<T>{
 
     @Override
     public boolean add(int index, T value) {
+        //TODO check index
+        Node<T> newNode=new Node<>(value,null,null);
+        if(index==0){
+            if(head==null){
+                head=tail=newNode;
+            }
+            else{
+                head.prev=newNode;
+                newNode.next=head;
+                head=newNode;
+            }
+        }
+        else if(index==size){
+            Node<T> l=tail;//必须要用l，否则第一个节点会失效
+            newNode.prev=l;
+            tail=newNode;
+            l.next=newNode;
+        }
+        else{
+            Node<T> node=findNode(index);
+            newNode.prev=node.prev;
+            newNode.next=node;
+            node.prev.next=newNode;
+            node.prev=newNode;
+        }
+        size++;
         return true;
     }
 
 
+    public void reverse(){
+        Node<T> current=head;
+        Node<T> prev=head;
+        while(current!=null){
+            Node<T> next=current.next;
+            prev.prev=current.next;
+            current.next.next=current;
+            prev=prev.prev;
+            current=next;
+        }
+    }
 
+    @Override
+    public T remove(int index) {
+        //todo 校验index
+        T value=null;
+        if(index==0){
+            //删除首节点
+            Node<T> h=head;
+            value=h.value;
+            head=head.next;
+            h.next=null;
+            if(h.prev!=null){
+                head.prev=null;
+            }
+        }
+        else{
+            Node<T> node=findNode(index);
+            value=node.value;
+            node.prev.next=node.next;
+            if(node.next!=null){
+                node.next.prev=node.prev;
+            }
+        }
+        return value;
+    }
 
+    public Node<T> findNode(int index){
+        Node<T> headNode=head;
+        for(int i=0;i<index;i++){
+            headNode=headNode.next;
+        }
+        return headNode;
+    }
     static class Node<T>{
         private T value;
         private Node<T> next;
@@ -53,4 +121,6 @@ public class MyLinkedList<T> extends AbstractList<T> implements List<T>{
             this(value,null,null);
         }
     }
+    //从头节点开始反转
+
 }

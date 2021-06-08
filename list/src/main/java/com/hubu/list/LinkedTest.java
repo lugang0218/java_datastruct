@@ -1,12 +1,13 @@
 package com.hubu.list;
-
-import java.util.LinkedList;
-
 public class LinkedTest {
     public static void main(String[] args) {
-    List<Integer> list=new MyLinkedList<>();
-    list.add(123);
-    list.add(245);
-    list.add(346);
+    MyLinkedList<Integer> list=new MyLinkedList<>();
+        list.add(1);
+        list.add(2);
+        list.add(3);
+        list.add(4);
+        list.add(5);
+        list.reverse();
+
     }
 }
