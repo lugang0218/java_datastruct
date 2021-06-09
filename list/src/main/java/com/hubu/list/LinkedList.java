@@ -1,10 +1,21 @@
 package com.hubu.list;
-public class MyLinkedList<T> extends AbstractList<T> implements List<T>{
+public class LinkedList<T> extends AbstractList<T> implements List<T>{
     private Node<T> head;
     private Node<T> tail;
     @Override
     public void clear() {
-
+        Node<T> current=head;
+        while(current!=null){
+            Node<T> next=current.next;
+            current.next=null;
+            current.prev=null;
+            if(next!=null){
+                next.prev=null;
+            }
+            current=next;
+        }
+        head=tail=null;
+        size=0;
     }
     @Override
     public boolean add(T value) {
@@ -61,20 +72,6 @@ public class MyLinkedList<T> extends AbstractList<T> implements List<T>{
         size++;
         return true;
     }
-
-
-    public void reverse(){
-        Node<T> current=head;
-        Node<T> prev=head;
-        while(current!=null){
-            Node<T> next=current.next;
-            prev.prev=current.next;
-            current.next.next=current;
-            prev=prev.prev;
-            current=next;
-        }
-    }
-
     @Override
     public T remove(int index) {
         //todo 校验index
@@ -121,6 +118,6 @@ public class MyLinkedList<T> extends AbstractList<T> implements List<T>{
             this(value,null,null);
         }
     }
-    //从头节点开始反转
+
 
 }
