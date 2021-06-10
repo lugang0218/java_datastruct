@@ -32,14 +32,14 @@ public class SingleList <T> extends AbstractList<T> implements List<T>{
         return true;
     }
     public void reverse(){
-        Node<T> prev = head;
-        Node current = head.next;
-        Node tempNode=null;
+        Node<T> prev = null;
+        Node current = head;
+        Node next=null;
         while (current != null) {
-            tempNode =current.next;
+            next =current.next;
             current.next=prev;
             prev=current;
-            current=tempNode;
+            current=next;
         }
         head.next=null;
         head=prev;

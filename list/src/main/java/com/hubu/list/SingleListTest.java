@@ -7,6 +7,6 @@ public class SingleListTest {
         list.add(14);
         list.add(15);
         list.add(16);
-        list.add(17,true);
+        list.reverse();
     }
 }

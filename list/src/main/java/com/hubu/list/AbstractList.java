@@ -1,6 +1,4 @@
 package com.hubu.list;
-
-
 public abstract class AbstractList<T> implements List<T> {
 
     protected  int size;

@@ -1,6 +1,4 @@
 package com.hubu.list;
-
-
 /**
  * 接口
  */

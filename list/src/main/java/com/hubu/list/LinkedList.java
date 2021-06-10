@@ -104,20 +104,44 @@ public class LinkedList<T> extends AbstractList<T> implements List<T>{
         }
         return headNode;
     }
-    static class Node<T>{
+
+    public void reverse(){
+        if(head==null||head.next==null){
+            return;
+        }
+        Node<T> tempTail=null;//用来保存尾节点
+        Node<T>current=head;
+        Node<T>prev=null;
+        Node<T>next=null;
+        while(current!=null){
+            next=current.next;
+            current.next=prev;
+            if(prev==null){
+                //说明当前current是尾节点
+                tempTail=current;
+            }
+            current.prev=next;
+
+            prev=current;
+            current=next;
+        }
+        head.next=null;
+        head=prev;
+        tail=tempTail;
+    }
+    static class Node<T> {
         private T value;
         private Node<T> next;
         private Node<T> prev;
 
-        public Node(T value,Node<T> prev,Node<T> next) {
-            this.value=value;
-            this.prev=prev;
-            this.next=next;
+        public Node(T value, Node<T> prev, Node<T> next) {
+            this.value = value;
+            this.prev = prev;
+            this.next = next;
         }
-        public Node(T value){
-            this(value,null,null);
+
+        public Node(T value) {
+            this(value, null, null);
         }
     }
-
-
 }
