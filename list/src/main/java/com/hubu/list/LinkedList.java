@@ -1,7 +1,16 @@
 package com.hubu.list;
+
+import com.hubu.list.util.LinkedListPrinter;
+import com.hubu.list.util.Printer;
+
 public class LinkedList<T> extends AbstractList<T> implements List<T>{
     private Node<T> head;
     private Node<T> tail;
+
+    public LinkedList(Printer printer) {
+        super(printer);
+    }
+
     @Override
     public void clear() {
         Node<T> current=head;
@@ -142,6 +151,35 @@ public class LinkedList<T> extends AbstractList<T> implements List<T>{
 
         public Node(T value) {
             this(value, null, null);
+        }
+    }
+
+    public Node<T> getHead() {
+        return head;
+    }
+
+    public Node<T> getTail() {
+        return tail;
+    }
+
+    public void show(){
+        if(head==null||tail==null){
+            return;
+        }
+        Node<T> current=head;
+        if(!(printer instanceof LinkedListPrinter)) {
+            throw new RuntimeException("printer error");
+
+        }
+        LinkedListPrinter<T> linkedListPrinter = (LinkedListPrinter<T>) printer;
+        while(current!=null){
+                if(current.next==null){
+                    linkedListPrinter.print(current.value,true);
+                }
+                else{
+                    linkedListPrinter.print(current.value,false);
+                }
+            current=current.next;
         }
     }
 }

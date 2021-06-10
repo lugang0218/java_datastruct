@@ -1,5 +1,4 @@
 package com.hubu.list;
-
 public class SingleCircleListTest {
     public static void main(String[] args) {
         SingleCircleList<Integer> list=new SingleCircleList<>();
@@ -8,5 +7,6 @@ public class SingleCircleListTest {
         list.add(3);
         list.add(4);
         list.add(5);
+        list.show();
     }
 }

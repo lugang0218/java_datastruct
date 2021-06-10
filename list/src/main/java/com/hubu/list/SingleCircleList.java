@@ -1,6 +1,4 @@
 package com.hubu.list;
-
-
 /**
  * 单项环链表
  */
@@ -32,5 +30,16 @@ public class SingleCircleList<E>{
             tempHead.next=newNode;
             newNode.next=head;
         }
+    }
+    public void show(){
+        if(head==null){
+            return;
+        }
+        Node<E> current=head;
+        while(current.next!=head){
+            System.out.println(current.value);
+            current=current.next;
+        }
+        System.out.println(current.value);
     }
 }

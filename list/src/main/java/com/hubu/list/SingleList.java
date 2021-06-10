@@ -1,6 +1,14 @@
 package com.hubu.list;
+
+import com.hubu.list.util.Printer;
+
 public class SingleList <T> extends AbstractList<T> implements List<T>{
     private Node<T> head;
+
+    public SingleList(Printer printer) {
+        super(printer);
+    }
+
     @Override
     public void clear() {
 
@@ -29,6 +37,8 @@ public class SingleList <T> extends AbstractList<T> implements List<T>{
         if(isFinish){
             reverse();
         }
+        size++;
+
         return true;
     }
     public void reverse(){
@@ -46,7 +56,16 @@ public class SingleList <T> extends AbstractList<T> implements List<T>{
     }
     @Override
     public T get(int index) {
-        return null;
+        Node<T> node=findNode(index);
+        return node.value;
+    }
+
+    private Node<T> findNode(int index) {
+        Node<T> current=head;
+        for(int i=0;i<index;i++){
+            current=current.next;
+        }
+        return current;
     }
 
     @Override
@@ -74,5 +93,19 @@ public class SingleList <T> extends AbstractList<T> implements List<T>{
         public Node(E value){
             this(value,null);
         }
+    }
+    public void show(){
+        if(printer==null){
+            return;
+        }
+        Node<T> current=head;
+        while(current!=null){
+            printer.print(current.value);
+            current=current.next;
+        }
+    }
+
+    public Node<T> getHead() {
+        return head;
     }
 }
