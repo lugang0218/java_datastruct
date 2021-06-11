@@ -1,7 +1,5 @@
 package com.hubu.list;
-
 import com.hubu.list.util.Printer;
-
 public class SingleList <T> extends AbstractList<T> implements List<T>{
     private Node<T> head;
 
@@ -108,4 +106,5 @@ public class SingleList <T> extends AbstractList<T> implements List<T>{
     public Node<T> getHead() {
         return head;
     }
+
 }
