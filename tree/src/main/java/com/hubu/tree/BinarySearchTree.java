@@ -1,19 +1,11 @@
 package com.hubu.tree;
-
-
 import java.util.Comparator;
-
-public class BinarySearchTree <T>{
-
-
+public class  BinarySearchTree<T> extends AbstractTree<T> implements Tree<T>{
     private Node<T> root;
     private int size=0;
-
-
     private Comparator comparator;
-
-
-    public BinarySearchTree(Comparator<T> comparator){
+    public BinarySearchTree(Printer<T> printer,Comparator<T> comparator){
+        super(printer);
         this.comparator=comparator;
     }
     public void add(T value){
@@ -42,6 +34,42 @@ public class BinarySearchTree <T>{
             prev.left=newNode;
         }
     }
+
+    @Override
+    public void clear() {
+
+    }
+
+    @Override
+    public void remove(T value) {
+
+    }
+
+    @Override
+    public void preOrder() {
+
+    }
+
+    @Override
+    public void midOrder() {
+
+    }
+
+    @Override
+    public void postOrder() {
+
+    }
+
+    public void doPreOrder(Node<T> node){
+        System.out.println(node.value);
+        if(node.left!=null){
+            doPreOrder(node.left);
+        }
+        if(node.right!=null){
+            doPreOrder(node.right);
+        }
+    }
+
     public int compare(T value1,T value2){
         return comparator.compare(value1,value2);
     }
@@ -63,17 +91,11 @@ public class BinarySearchTree <T>{
     }
 
 
-    public static void main(String[] args) {
-        BinarySearchTree<Integer> binarySearchTree=new BinarySearchTree<>(new Comparator<Integer>() {
-            @Override
-            public int compare(Integer o1, Integer o2) {
-                return o1-o2;
-            }
-        });
-        binarySearchTree.add(100);
-        binarySearchTree.add(80);
-        binarySearchTree.add(90);
-        binarySearchTree.add(200);
-        binarySearchTree.add(150);
+    public int getSize(){
+        return size;
     }
+    public boolean isEmpty(){
+        return size==0;
+    }
+
 }
