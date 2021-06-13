@@ -8,7 +8,6 @@ public abstract  class AbstractTree <T> implements Tree<T>{
     protected  int size;
 
 
-
     public AbstractTree(Printer<T> printer){
         this.printer=printer;
     }
@@ -27,4 +26,6 @@ public abstract  class AbstractTree <T> implements Tree<T>{
     public void print(T value) {
 
     }
+
+
 }
