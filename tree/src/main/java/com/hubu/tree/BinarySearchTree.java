@@ -1,8 +1,9 @@
 package com.hubu.tree;
 import java.util.Comparator;
+import java.util.LinkedList;
 public class  BinarySearchTree<T> extends AbstractTree<T> implements Tree<T>{
     private Comparator comparator;
-    protected BinarySearchTree.Node<T> root;
+    protected Node<T> root;
     public BinarySearchTree(Printer<T> printer,Comparator<T> comparator){
         super(printer);
         this.comparator=comparator;
@@ -10,6 +11,7 @@ public class  BinarySearchTree<T> extends AbstractTree<T> implements Tree<T>{
     public void add(T value){
         if(root==null){
             root=new Node<>(value,null,null,null);
+            size++;
             return;
         }
         int compare=0;
@@ -31,6 +33,7 @@ public class  BinarySearchTree<T> extends AbstractTree<T> implements Tree<T>{
         else{
             parent.left=newNode;
         }
+        size++;
     }
 
     @Override
@@ -58,6 +61,7 @@ public class  BinarySearchTree<T> extends AbstractTree<T> implements Tree<T>{
             else{
                 parentNode.right=null;
             }
+            size--;
         }
 
         //当前节点有一个子节点
@@ -74,6 +78,7 @@ public class  BinarySearchTree<T> extends AbstractTree<T> implements Tree<T>{
                     root=currentNode.right;
                     root.parent=null;
                 }
+
                 return;
             }
 
@@ -111,6 +116,7 @@ public class  BinarySearchTree<T> extends AbstractTree<T> implements Tree<T>{
                     currentNode.parent=null;
                 }
             }
+            size--;
         }
 
         //当前节点有两个子节点
@@ -130,7 +136,7 @@ public class  BinarySearchTree<T> extends AbstractTree<T> implements Tree<T>{
             else{
                 lastLeftChild.parent.right=null;
             }
-
+            size--;
         }
     }
     public int compare(T value1,T value2){
@@ -254,9 +260,6 @@ public class  BinarySearchTree<T> extends AbstractTree<T> implements Tree<T>{
         }
         return node.hasNoChild();
     }
-
-
-
     public boolean hasTwoChild(Node<T>node) {
         if(node==null) {
             return false;
@@ -275,52 +278,52 @@ public class  BinarySearchTree<T> extends AbstractTree<T> implements Tree<T>{
         }
         return node.hasNoChild();
     }
+    //求解树的高度
+    public int height(){
+        if(root==null){
+            return 0;
+        }
+        return doHeight(root);
+    }
+    private int doHeight(Node<T> node){
+        if(node==null){
+            return 0;
+        }
+        else if(node.left==null&&node.right==null){
+            return 1;
+        }
+        return Math.max(doHeight(node.left),doHeight(node.right))+1;
+    }
+    //层序遍历树节点
+    public void level(){
+        if(root==null){
+            return;
+        }
+        else{
+            doLevel(root);
+        }
+    }
 
+    private void doLevel(Node<T> node) {
+        LinkedList<Node<T>> queue=new LinkedList<>();
+        queue.offer(node);
+        while(!queue.isEmpty()){
+            Node<T> current = queue.poll();
+            System.out.println(current.value);
+            if(current.left!=null){
+                queue.offer(current.left);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+            }
+            if(current.right!=null){
+                queue.offer(current.right);
+            }
+        }
+    }
     static class Node<T>{
         T value;
-        Node<T> left;
-        Node<T> right;
-        Node<T> parent;
+        private Node<T> left;
+        private Node<T> right;
+        private Node<T> parent;
         public Node(T value,Node<T> left,Node<T> right){
             this(value,null,left,right);
         }

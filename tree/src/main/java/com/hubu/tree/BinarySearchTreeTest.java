@@ -12,16 +12,17 @@ public class BinarySearchTreeTest {
         });
         binarySearchTree.add(80);
         binarySearchTree.add(50);
-//        binarySearchTree.add(30);
-//        binarySearchTree.add(60);
-//        binarySearchTree.add(15);
-//        binarySearchTree.add(40);
-//        binarySearchTree.add(14);
-//        binarySearchTree.add(55);
-//        binarySearchTree.add(70);
-//        binarySearchTree.add(100);
-        binarySearchTree.remove(80);
-        binarySearchTree.midOrder();
+        binarySearchTree.add(30);
+        binarySearchTree.add(60);
+        binarySearchTree.add(15);
+        binarySearchTree.add(40);
+        binarySearchTree.add(14);
+        binarySearchTree.add(55);
+        binarySearchTree.add(70);
+        binarySearchTree.add(100);
+        int height = binarySearchTree.height();
+        System.out.println("height="+height);
+        binarySearchTree.level();
 
     }
 }
