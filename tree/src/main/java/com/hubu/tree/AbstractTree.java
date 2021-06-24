@@ -1,13 +1,9 @@
 package com.hubu.tree;
 
 public abstract  class AbstractTree <T> implements Tree<T>{
-
-
-
     private Printer<T> printer;
     protected  int size;
-
-
+    protected AbstractNode<T> root;
     public AbstractTree(Printer<T> printer){
         this.printer=printer;
     }
@@ -28,4 +24,7 @@ public abstract  class AbstractTree <T> implements Tree<T>{
     }
 
 
+
+
+    public abstract void afterAdd();
 }

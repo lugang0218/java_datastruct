@@ -20,9 +20,6 @@ public class BinarySearchTreeTest {
         binarySearchTree.add(55);
         binarySearchTree.add(70);
         binarySearchTree.add(100);
-        int height = binarySearchTree.height();
-        System.out.println("height="+height);
-        binarySearchTree.level();
-
+        binarySearchTree.preOrder();
     }
 }

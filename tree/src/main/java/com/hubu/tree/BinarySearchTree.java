@@ -148,6 +148,11 @@ public class  BinarySearchTree<T> extends AbstractTree<T> implements Tree<T>{
     }
 
     @Override
+    public void afterAdd() {
+
+    }
+
+    @Override
     public void preOrder() {
         if(root==null){
             return;
@@ -171,7 +176,7 @@ public class  BinarySearchTree<T> extends AbstractTree<T> implements Tree<T>{
         doPostOrder(root);
     }
 
-    public void doPreOrder(BinarySearchTree.Node<T> node){
+    public void doPreOrder(Node<T> node){
         System.out.println(node.value);
         if(node.left!=null){
             doPreOrder(node.left);
@@ -181,7 +186,7 @@ public class  BinarySearchTree<T> extends AbstractTree<T> implements Tree<T>{
         }
     }
 
-    public void doMidOrder(BinarySearchTree.Node<T> node){
+    public void doMidOrder(Node<T> node){
         if(node.left!=null){
             doMidOrder(node.left);
         }
@@ -191,7 +196,7 @@ public class  BinarySearchTree<T> extends AbstractTree<T> implements Tree<T>{
         }
     }
 
-    public void doPostOrder(BinarySearchTree.Node<T> node){
+    public void doPostOrder(Node<T> node){
         if(node.left!=null){
             doPostOrder(node.left);
         }
