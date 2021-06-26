@@ -1,9 +1,10 @@
 package com.hubu.tree;
 import com.hubu.tree.printer.BinaryTreeInfo;
-import com.sun.crypto.provider.BlowfishKeyGenerator;
-
 import java.util.Comparator;
-public class RedBlackTree<K,V> implements BinaryTreeInfo {
+import java.util.LinkedList;
+import java.util.Queue;
+public class
+RedBlackTree<K,V> implements BinaryTreeInfo {
     private int size;
     private Node<K,V> root=null;
     private Comparator<K> comparator;
@@ -50,42 +51,8 @@ public class RedBlackTree<K,V> implements BinaryTreeInfo {
         node.parent=leftNode;
 
     }
-    private void rotateLeft(Node <K,V> p) {
-        if (p != null) {
-            Node <K,V> r = p.right;
-            p.right = r.left;
-            if (r.left != null)
-                r.left.parent = p;
-            r.parent = p.parent;
-            if (p.parent == null)
-                root = r;
-            else if (p.parent.left == p)
-                p.parent.left = r;
-            else
-                p.parent.right = r;
-            r.left = p;
-            p.parent = r;
-        }
-    }
-
     public Node<K, V> getRoot() {
         return root;
-    }
-
-    private void rotateRight(Node <K,V> p) {
-        if (p != null) {
-             Node <K,V> l = p.left;
-            p.left = l.right;
-            if (l.right != null) l.right.parent = p;
-            l.parent = p.parent;
-            if (p.parent == null)
-                root = l;
-            else if (p.parent.right == p)
-                p.parent.right = l;
-            else p.parent.left = l;
-            l.right = p;
-            p.parent = l;
-        }
     }
     public Node<K,V> parentNode(Node<K,V> node){
         return node!=null?node.parent:null;
@@ -106,8 +73,6 @@ public class RedBlackTree<K,V> implements BinaryTreeInfo {
             doPreOrder(node.right);
         }
     }
-
-
     public void put(K key,V value){
         size++;
         //根节点不用做任何操作
@@ -156,8 +121,8 @@ public class RedBlackTree<K,V> implements BinaryTreeInfo {
     }
     //插入之后调整，能来到这儿的节点一定不是根节点
     private void putAfter(Node<K,V> node){
-        node.color=RED;
         //插入的节点都是红色节点
+        node.color=RED;
         while(node!=null&&node!=root&&node.parent.color== RED){
             //裂变情况
             //如果父亲是爷爷的左孩子
@@ -168,14 +133,20 @@ public class RedBlackTree<K,V> implements BinaryTreeInfo {
                 //获取叔叔节点
                 Node<K,V> uncle=parentNode(parentNode(node)).right;
 
+                //RED说明叔叔节点一定不为空 空节点颜色是黑色的 与四节点进行合并 需要分裂 递归操作
                 if(colorOf(uncle)==RED){
+
+                    //将叔叔节点设置成为黑色
                     setColor(uncle,BLACK);
+
+                    //将parent设置成为黑色
                     setColor(parent,BLACK);
+
+                    //将爷爷节点设置成为红色
                     setColor(grand,RED);
                     //爷爷节点继续递归操作
                     node=grand;
                 }
-
                 else{
 
                     //如果当前节点是父亲的右节点 并且没有叔叔节点
@@ -184,7 +155,7 @@ public class RedBlackTree<K,V> implements BinaryTreeInfo {
                         leftRotate(parent);
                     }
 
-                    //将parent变黑 爷爷变红
+                    //将parent变黑 爷爷变红 退出循环
                     setColor(parent,BLACK);
                     setColor(grand,RED);
                     //沿着爷爷右旋
@@ -343,7 +314,59 @@ public class RedBlackTree<K,V> implements BinaryTreeInfo {
             return p;
         }
     }
-    private void deleteEntry(Node<K,V> p) {
+    public void remove(K key){
+        if(key==null){
+            throw new NullPointerException("key="+key);
+        }
+        Node<K,V> node=findNode(key);
+        if(node!=null){
+            remove(node);
+        }
+    }
+    public boolean containsKey(K key){
+        return findNode(key)!=null;
+    }
+    public boolean containsValue(V value){
+        if(this.root==null){
+            return false;
+        }
+        Node<K,V> current=this.root;
+        Queue<Node<K,V>> nodeQueue=new LinkedList<>();
+
+
+        nodeQueue.offer(current);
+        while(!nodeQueue.isEmpty()){
+            Node<K, V> node = nodeQueue.poll();
+            if(node.getValue().equals(value)){
+                return true;
+            }
+            if(node.left!=null){
+                nodeQueue.offer(node.left);
+            }
+            if(node.right!=null){
+                nodeQueue.offer(node.right);
+            }
+        }
+        return false;
+    }
+    private Node<K,V> findNode(K key){
+        Node<K,V> current=root;
+        int compare=0;
+        while(current!=null){
+            compare=comparator.compare(key,current.key);
+            if(compare>0){
+                current=current.right;
+            }
+            else if(compare==0){
+                return current;
+            }
+            else{
+                current=current.left;
+            }
+        }
+        return null;
+    }
+    private void remove(Node<K,V> p) {
         size--;
         if (p.left != null && p.right != null) {
             Node <K,V> s = successor(p);
@@ -353,6 +376,8 @@ public class RedBlackTree<K,V> implements BinaryTreeInfo {
         }
         Node <K,V> replacement = (p.left != null ? p.left : p.right);
 
+
+        //替换节点不为空
         if (replacement != null) {
             replacement.parent = p.parent;
             if (p.parent == null)
@@ -362,9 +387,17 @@ public class RedBlackTree<K,V> implements BinaryTreeInfo {
             else
                 p.parent.right = replacement;
             p.left = p.right = p.parent = null;
+
+            if(p.color==BLACK){
+                afterRemove(replacement);
+            }
         } else if (p.parent == null) {
             root = null;
         } else {
+            //调整需要找兄弟节点的节点 即p.left==p.right==null p不能自我修复 需要寻找兄弟节点
+            if(p.color==BLACK){
+                afterRemove(p);
+            }
             if (p.parent != null) {
                 if (p == p.parent.left)
                     p.parent.left = null;
@@ -373,5 +406,145 @@ public class RedBlackTree<K,V> implements BinaryTreeInfo {
                 p.parent = null;
             }
         }
+    }
+    private void removeFix(Node<K,V> node){
+        if(node!=root&&colorOf(node)==BLACK){
+            //如果当前node是左孩子
+            if(node==leftOf(parentNode(node))){
+                //获取兄弟节点
+                Node<K,V> slider=rightOf(parentNode(node));
+
+                //找当真正的兄弟节点(如果此时的兄弟节点是红色 说明真正的兄弟节点在下边一层 因为红色节点会向上一层合并) 需要旋转
+                if (colorOf(slider) == RED) {
+                    setColor(slider, BLACK);
+                    setColor(parentNode(node), RED);
+                    leftRotate (parentNode(node));
+
+                    //让slider指向真正的兄弟节点
+                    slider = rightOf(parentNode(node));
+                }
+
+                //如果兄弟节点的左右节点都为空 牺牲兄弟节点
+                if(colorOf(leftOf(slider))==BLACK&&colorOf(rightOf(slider))==BLACK){
+                    setColor(slider, RED);//让兄弟节点改成红色
+                    node = parentNode(node);
+                }
+
+                //兄弟节点能够借节点
+                else{
+                    //如果是三节点 旋转操作一下
+                    //如果右节点为空 说明一定有左节点
+                    if(colorOf(rightOf(slider))==BLACK){
+                        //先将兄弟节点变红
+                        setColor(slider,RED);
+                        //兄弟节点的左节点变黑
+                        setColor(leftOf(slider),BLACK);
+                        //对兄的节点进行右旋
+                        rightRotate(slider);
+
+                        //更新兄弟节点
+                        slider=rightOf(parentNode(node));
+                    }
+                    //三节点和四节点的公共代码来到这儿
+
+                    setColor(slider,colorOf(parentNode(node)));//将兄弟节点染成父亲节点的颜色
+                    setColor(parentNode(node),BLACK);//将父亲染成黑色
+                    setColor(rightOf(slider), BLACK);//将兄弟节点的右孩子染成黑色
+                    rightRotate(parentNode(node));//围着父亲右旋
+                    //退出循环
+                    node=root;
+                }
+            }
+
+            else { // symmetric
+                Node <K,V> sib = leftOf(parentNode(node));
+
+                if (colorOf(sib) == RED) {
+                    setColor(sib, BLACK);
+                    setColor(parentNode(node), RED);
+                    rightRotate(parentNode(node));
+                    sib = leftOf(parentNode(node));
+                }
+
+                if (colorOf(rightOf(sib)) == BLACK &&
+                        colorOf(leftOf(sib)) == BLACK) {
+                    setColor(sib, RED);
+                    node = parentNode(node);
+                } else {
+                    if (colorOf(leftOf(sib)) == BLACK) {
+                        setColor(rightOf(sib), BLACK);
+                        setColor(sib, RED);
+                        leftRotate(sib);
+                        sib = leftOf(parentNode(node));
+                    }
+                    setColor(sib, colorOf(parentNode(node)));
+                    setColor(parentNode(node), BLACK);
+                    setColor(leftOf(sib), BLACK);
+                    rightRotate(parentNode(node));
+                    node = root;
+                }
+            }
+        }
+        setColor(node,BLACK);
+    }
+    //删除之后做调整
+    private void afterRemove(Node<K,V> x) {
+        while (x != root && colorOf(x) == BLACK) {
+            if (x == leftOf(parentNode(x))) {
+                Node<K,V> sib = rightOf(parentNode(x));
+                if (colorOf(sib) == RED) {
+                    setColor(sib, BLACK);
+                    setColor(parentNode(x), RED);
+                    leftRotate (parentNode(x));
+                    sib = rightOf(parentNode(x));
+                }
+                if (colorOf(leftOf(sib))  == BLACK &&
+                        colorOf(rightOf(sib)) == BLACK) {
+                    setColor(sib, RED);
+                    x = parentNode(x);
+                } else {
+                    if (colorOf(rightOf(sib)) == BLACK) {
+                        setColor(leftOf(sib), BLACK);
+                        setColor(sib, RED);
+                        rightRotate(sib);
+                        sib = rightOf(parentNode(x));
+                    }
+                    setColor(sib, colorOf(parentNode(x)));
+                    setColor(parentNode(x), BLACK);
+                    setColor(rightOf(sib), BLACK);
+                    rightRotate(parentNode(x));
+                    x = root;
+                }
+            }
+            else { // symmetric
+                Node <K,V> sib = leftOf(parentNode(x));
+
+                if (colorOf(sib) == RED) {
+                    setColor(sib, BLACK);
+                    setColor(parentNode(x), RED);
+                    rightRotate(parentNode(x));
+                    sib = leftOf(parentNode(x));
+                }
+
+                if (colorOf(rightOf(sib)) == BLACK &&
+                        colorOf(leftOf(sib)) == BLACK) {
+                    setColor(sib, RED);
+                    x = parentNode(x);
+                } else {
+                    if (colorOf(leftOf(sib)) == BLACK) {
+                        setColor(rightOf(sib), BLACK);
+                        setColor(sib, RED);
+                        leftRotate(sib);
+                        sib = leftOf(parentNode(x));
+                    }
+                    setColor(sib, colorOf(parentNode(x)));
+                    setColor(parentNode(x), BLACK);
+                    setColor(leftOf(sib), BLACK);
+                    rightRotate(parentNode(x));
+                    x = root;
+                }
+            }
+        }
+        setColor(x, BLACK);
     }
 }

@@ -6,9 +6,13 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="tree" />
         <module name="stack" />
+        <module name="tree" />
+        <module name="grap" />
+        <module name="window" />
+        <module name="sort" />
         <module name="list" />
+        <module name="heap" />
         <module name="queue" />
         <module name="bfs" />
       </profile>
@@ -16,8 +20,11 @@
     <bytecodeTargetLevel>
       <module name="bfs" target="8" />
       <module name="datastruct" target="1.5" />
+      <module name="grap" target="8" />
+      <module name="heap" target="8" />
       <module name="list" target="8" />
       <module name="queue" target="8" />
+      <module name="sort" target="8" />
       <module name="stack" target="8" />
       <module name="tree" target="8" />
       <module name="window" target="8" />

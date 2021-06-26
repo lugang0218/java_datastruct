@@ -4,7 +4,9 @@ public class ArrayList <T> extends AbstractList<T> implements List<T>{
     public ArrayList(Printer printer) {
         super(printer);
     }
-
+    public ArrayList(){
+        super(null);
+    }
     @Override
     public void clear() {
 

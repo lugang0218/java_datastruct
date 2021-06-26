@@ -89,7 +89,5 @@ public class TreeOperation {
             }
             System.out.println(sb.toString());
         }
-
-        System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
     }
 }

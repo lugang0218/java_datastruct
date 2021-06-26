@@ -1,16 +1,21 @@
 package com.hubu.list;
 
+import com.hubu.list.util.InsertPolicy;
 import com.hubu.list.util.LinkedListPrinter;
 import com.hubu.list.util.Printer;
 
 public class LinkedList<T> extends AbstractList<T> implements List<T>{
+    //默认策略
+    private InsertPolicy defaultInsertPolicy=InsertPolicy.Tail;
     private Node<T> head;
     private Node<T> tail;
-
     public LinkedList(Printer printer) {
         super(printer);
+        setInsertPolicy(defaultInsertPolicy);
     }
-
+    public LinkedList(Printer printer, InsertPolicy insertPolicy) {
+        super(printer,insertPolicy);
+    }
     @Override
     public void clear() {
         Node<T> current=head;
@@ -28,29 +33,46 @@ public class LinkedList<T> extends AbstractList<T> implements List<T>{
     }
     @Override
     public boolean add(T value) {
-        Node<T> l=tail;
-        Node<T> newNode=new Node<>(value,l,null);
-        tail=newNode;
-        if(l==null){
-            head=newNode;
+        if(getInsertPolicy()==InsertPolicy.Head){
+            return addFromHead(value);
         }
-        else{
-            l.next=newNode;
-        }
+        return addFromTail(value);
+    }
+    public boolean addFromHead(T value){
         size++;
+        Node<T> h=head;
+        Node<T> newNode=new Node<>(value,null,h);
+        head=newNode;
+        if(h==null){
+            tail=newNode;
+
+            return true;
+        }
+        h.prev=newNode;
+        head=newNode;
         return true;
     }
-
+    public boolean addFromTail(T value){
+        size++;
+        Node<T> t=tail;
+        Node<T> newNode=new Node<>(value,t,null);
+        tail=newNode;
+        if(t==null){
+            head=newNode;
+            return true;
+        }
+        t.next=newNode;
+        tail=newNode;
+        return true;
+    }
     @Override
     public T get(int index) {
-        return null;
+        return findNode(index).value;
     }
-
     @Override
     public T set(int index, T newValue) {
         return null;
     }
-
     @Override
     public boolean add(int index, T value) {
         //TODO check index
@@ -105,15 +127,28 @@ public class LinkedList<T> extends AbstractList<T> implements List<T>{
         }
         return value;
     }
-
-    public Node<T> findNode(int index){
-        Node<T> headNode=head;
-        for(int i=0;i<index;i++){
-            headNode=headNode.next;
-        }
-        return headNode;
+    //是否从头节点开始操作
+    private boolean fromHead(int index){
+        return index<=size/2;
     }
 
+    private Node<T> findNode(int index){
+        //check index
+        Node<T> current=null;
+        if(fromHead(index)){
+            current=head;
+            for(int i=0;i<index;i++){
+                current=current.next;
+            }
+            return current;
+        }
+        current=tail;
+        for(int i=size-1;i>index;i--){
+            current=current.prev;
+        }
+        return current;
+    }
+    //双向链表的反转
     public void reverse(){
         if(head==null||head.next==null){
             return;
@@ -130,7 +165,6 @@ public class LinkedList<T> extends AbstractList<T> implements List<T>{
                 tempTail=current;
             }
             current.prev=next;
-
             prev=current;
             current=next;
         }
@@ -161,7 +195,6 @@ public class LinkedList<T> extends AbstractList<T> implements List<T>{
     public Node<T> getTail() {
         return tail;
     }
-
     public void show(){
         if(head==null||tail==null){
             return;
@@ -182,4 +215,6 @@ public class LinkedList<T> extends AbstractList<T> implements List<T>{
             current=current.next;
         }
     }
+
+
 }
