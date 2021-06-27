@@ -88,7 +88,13 @@ RedBlackTree<K,V> implements BinaryTreeInfo {
             compare = compare(key, current.key);
             if (compare > 0) {
                 current = current.right;
-            } else {
+            }
+            //相等更新值就行不需要调整
+            else if(compare==0){
+                current.value=value;
+                return ;
+            }
+            else {
                 current = current.left;
             }
         }
@@ -194,8 +200,20 @@ RedBlackTree<K,V> implements BinaryTreeInfo {
         }
         root.color=BLACK;
     }
+
+    /**
+     * 如果有comparator 就调用comparator比较器进行比较
+     * @param key1
+     * @param key2
+     * @return
+     */
     private int compare(K key1, K key2) {
-        return comparator.compare(key1,key2);
+
+        if(comparator!=null){
+            return comparator.compare(key1,key2);
+        }
+        return ((Comparable<K>)key1).compareTo(key2);
+
     }
     private static final boolean RED   = false;
     private static final boolean BLACK = true;
@@ -219,6 +237,16 @@ RedBlackTree<K,V> implements BinaryTreeInfo {
     public Object string(Object node) {
         String value=((Node<K,V>)node).value.toString();
         return ((Node<K,V>)node).color==BLACK?"黑"+value:"红"+value;
+    }
+
+    public V set(K key, V value) {
+        Node<K, V> node = findNode(key);
+        if(node==null){
+            throw new RuntimeException("Not have such key");
+        }
+        V oldValue=node.value;
+        node.value=value;
+        return oldValue;
     }
 
     static class Node<K,V>{
@@ -353,7 +381,7 @@ RedBlackTree<K,V> implements BinaryTreeInfo {
         Node<K,V> current=root;
         int compare=0;
         while(current!=null){
-            compare=comparator.compare(key,current.key);
+            compare=compare(key,current.key);
             if(compare>0){
                 current=current.right;
             }
@@ -406,6 +434,18 @@ RedBlackTree<K,V> implements BinaryTreeInfo {
                 p.parent = null;
             }
         }
+    }
+    /**
+     * put key和value都不允许为空
+     * @param key
+     * @return
+     */
+    public V get(K key){
+        Node<K, V> node = findNode(key);
+        if(node!=null){
+            return node.value;
+        }
+        return null;
     }
     private void removeFix(Node<K,V> node){
         if(node!=root&&colorOf(node)==BLACK){

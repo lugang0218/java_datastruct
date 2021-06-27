@@ -13,6 +13,7 @@
         <module name="sort" />
         <module name="list" />
         <module name="heap" />
+        <module name="map" />
         <module name="queue" />
         <module name="bfs" />
       </profile>
@@ -23,6 +24,7 @@
       <module name="grap" target="8" />
       <module name="heap" target="8" />
       <module name="list" target="8" />
+      <module name="map" target="8" />
       <module name="queue" target="8" />
       <module name="sort" target="8" />
       <module name="stack" target="8" />

@@ -13,6 +13,7 @@
         <module>queue</module>
         <module>window</module>
         <module>heap</module>
+        <module>map</module>
     </modules>
 
 </project>

@@ -11,15 +11,5 @@ public class SingleStackTest {
 //        stack.push(6);
 //        stack.push(7);
 
-
-        ArrayStack<Integer> arrayStack=new ArrayStack<>(10);
-        arrayStack.push(1);
-        arrayStack.push(2);
-        arrayStack.push(3);
-        arrayStack.push(4);
-        System.out.println(arrayStack.pop());
-        System.out.println(arrayStack.pop());
-        System.out.println(arrayStack.pop());
-        System.out.println(arrayStack.pop());
     }
 }
