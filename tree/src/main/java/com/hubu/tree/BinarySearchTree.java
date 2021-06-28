@@ -140,7 +140,7 @@ public class  BinarySearchTree<T> extends AbstractTree<T> implements Tree<T>{
         }
     }
     public int compare(T value1,T value2){
-        return comparator.compare(value1,value2);
+        return comparator!=null?comparator.compare(value1,value2):((Comparable<T>)value1).compareTo(value2);
     }
     //添加节点
     public boolean isEmpty(){

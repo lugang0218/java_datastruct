@@ -7,6 +7,8 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="stack" />
+        <module name="set" />
+        <module name="util" />
         <module name="tree" />
         <module name="grap" />
         <module name="window" />
@@ -26,9 +28,11 @@
       <module name="list" target="8" />
       <module name="map" target="8" />
       <module name="queue" target="8" />
+      <module name="set" target="8" />
       <module name="sort" target="8" />
       <module name="stack" target="8" />
       <module name="tree" target="8" />
+      <module name="util" target="8" />
       <module name="window" target="8" />
     </bytecodeTargetLevel>
   </component>

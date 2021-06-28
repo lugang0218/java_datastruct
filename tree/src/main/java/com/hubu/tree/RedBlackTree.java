@@ -587,4 +587,43 @@ RedBlackTree<K,V> implements BinaryTreeInfo {
         }
         setColor(x, BLACK);
     }
+
+
+
+
+    public int height(){
+        if(root==null){
+            return 0;
+        }
+        return doHeight(root);
+    }
+
+
+    //求树的高度
+
+    private int doHeight(Node<K,V> node){
+        if(node==null){
+            return 0;
+        }
+        else if(node.left==null&&node.right==null){
+            return 1;
+        }
+        return Math.max(doHeight(node.left),doHeight(node.right))+1;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
