@@ -1,6 +1,4 @@
 package com.hubu.stack;
-
-
 /**
  * 基于单链表实现栈
  * @param <T>
@@ -38,7 +36,11 @@ public class SingleStack<T> extends AbstractStack<T> implements Stack<T>{
 
     @Override
     public void clear() {
-
+        if(head==null){
+            return ;
+        }
+        head=null;
+        size=0;
     }
 
     static class Node<E>{

@@ -1,6 +1,11 @@
 package com.hubu.tree;
 
+import java.util.Comparator;
+
 public abstract  class AbstractTree <T> implements Tree<T>{
+
+
+    private Comparator<T> comparator;
     private Printer<T> printer;
     protected  int size;
     protected AbstractNode<T> root;
@@ -8,6 +13,12 @@ public abstract  class AbstractTree <T> implements Tree<T>{
         this.printer=printer;
     }
 
+
+
+    public AbstractTree(Printer<T> printer,Comparator<T> comparator){
+        this.comparator=comparator;
+        this.printer=printer;
+    }
     @Override
     public int size() {
         return size;
@@ -25,6 +36,10 @@ public abstract  class AbstractTree <T> implements Tree<T>{
 
 
 
+    protected   int compare(T value1,T value2){
+        return comparator!=null?comparator.compare(value1,value2)
+                :((Comparable<T>)value1).compareTo(value2);
+    }
 
     public abstract void afterAdd();
 }

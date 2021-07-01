@@ -190,7 +190,7 @@ public class AvlTree <T> extends AbstractTree<T> implements Tree <T>{
             }
         }
     }
-    private int compare(T value1, T value2) {
+    protected int compare(T value1, T value2) {
         return comparator!=null?comparator.compare(value1,value2):((Comparable<T>)value1).compareTo(value2);
     }
     @Override
@@ -274,7 +274,6 @@ public class AvlTree <T> extends AbstractTree<T> implements Tree <T>{
             this.left=left;
             this.right=right;
         }
-
         public Node(T value,Node<T> parent){
             this.height=1;
             this.value=value;

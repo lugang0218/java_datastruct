@@ -39,7 +39,10 @@ public class ArrayStack<T> extends AbstractStack<T> implements Stack<T> {
     }
     @Override
     public void clear() {
-        //todo
+        for(int i=0;i<size();i++){
+            elementData[i]=null;
+        }
+        size=0;
     }
     //判断是否需要扩容
     public boolean reSize(int minNeedSize){
@@ -48,10 +51,6 @@ public class ArrayStack<T> extends AbstractStack<T> implements Stack<T> {
     public int newCapacity(int minNeedSize){
         return this.capacity*2;
     }
-
-
-
-
     //创建size这么大的新数组，用于扩容
     public void copyToNewStack(int newCapacity){
         T []newArray=(T[])new Object[newCapacity];

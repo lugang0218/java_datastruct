@@ -3,8 +3,7 @@ import com.hubu.tree.printer.BinaryTreeInfo;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.Queue;
-public class
-RedBlackTree<K,V> implements BinaryTreeInfo {
+public class RedBlackTree<K,V> implements BinaryTreeInfo {
     private int size;
     private Node<K,V> root=null;
     private Comparator<K> comparator;
@@ -138,10 +137,8 @@ RedBlackTree<K,V> implements BinaryTreeInfo {
             if(parent==leftOf(grand)){
                 //获取叔叔节点
                 Node<K,V> uncle=parentNode(parentNode(node)).right;
-
                 //RED说明叔叔节点一定不为空 空节点颜色是黑色的 与四节点进行合并 需要分裂 递归操作
                 if(colorOf(uncle)==RED){
-
                     //将叔叔节点设置成为黑色
                     setColor(uncle,BLACK);
 
@@ -199,6 +196,88 @@ RedBlackTree<K,V> implements BinaryTreeInfo {
             }
         }
         root.color=BLACK;
+    }
+
+
+
+    private void removeFix(Node<K,V> node){
+        while(node!=root&&colorOf(node)==BLACK){
+            //如果当前node是左孩子
+            if(node==leftOf(parentNode(node))){
+                //获取兄弟节点
+                Node<K,V> slider=rightOf(parentNode(node));
+
+                //找当真正的兄弟节点(如果此时的兄弟节点是红色 说明真正的兄弟节点在下边一层 因为红色节点会向上一层合并) 需要旋转
+                if (colorOf(slider) == RED) {
+                    setColor(slider, BLACK);
+                    setColor(parentNode(node), RED);
+                    leftRotate (parentNode(node));
+
+                    //让slider指向真正的兄弟节点
+                    slider = rightOf(parentNode(node));
+                }
+
+                //如果兄弟节点的左右节点都为空 牺牲兄弟节点 递归处理
+                if(colorOf(leftOf(slider))==BLACK&&colorOf(rightOf(slider))==BLACK){
+                    setColor(slider, RED);//让兄弟节点改成红色
+                    node = parentNode(node);
+                }
+
+                //兄弟节点能够借节点
+                else{
+                    //如果是三节点 旋转操作一下
+                    //如果右节点为空 说明一定有左节点
+                    if(colorOf(rightOf(slider))==BLACK){
+                        //先将兄弟节点变红
+                        setColor(slider,RED);
+                        //兄弟节点的左节点变黑
+                        setColor(leftOf(slider),BLACK);
+                        //对兄的节点进行右旋
+                        rightRotate(slider);
+
+                        //更新兄弟节点
+                        slider=rightOf(parentNode(node));
+                    }
+                    //三节点和四节点的公共代码来到这儿
+                    setColor(slider,colorOf(parentNode(node)));//将兄弟节点染成父亲节点的颜色
+                    setColor(parentNode(node),BLACK);//将父亲染成黑色
+                    setColor(rightOf(slider), BLACK);//将兄弟节点的右孩子染成黑色
+                    rightRotate(parentNode(node));//围着父亲右旋
+                    //退出循环
+                    node=root;
+                }
+            }
+
+            else { // symmetric
+                Node <K,V> sib = leftOf(parentNode(node));
+
+                if (colorOf(sib) == RED) {
+                    setColor(sib, BLACK);
+                    setColor(parentNode(node), RED);
+                    rightRotate(parentNode(node));
+                    sib = leftOf(parentNode(node));
+                }
+
+                if (colorOf(rightOf(sib)) == BLACK &&
+                        colorOf(leftOf(sib)) == BLACK) {
+                    setColor(sib, RED);
+                    node = parentNode(node);
+                } else {
+                    if (colorOf(leftOf(sib)) == BLACK) {
+                        setColor(rightOf(sib), BLACK);
+                        setColor(sib, RED);
+                        leftRotate(sib);
+                        sib = leftOf(parentNode(node));
+                    }
+                    setColor(sib, colorOf(parentNode(node)));
+                    setColor(parentNode(node), BLACK);
+                    setColor(leftOf(sib), BLACK);
+                    rightRotate(parentNode(node));
+                    node = root;
+                }
+            }
+        }
+        setColor(node,BLACK);
     }
 
     /**
@@ -264,8 +343,6 @@ RedBlackTree<K,V> implements BinaryTreeInfo {
             this.right=right;
             this.color=color;
         }
-
-
         public boolean isColor() {
             return color;
         }
@@ -403,8 +480,6 @@ RedBlackTree<K,V> implements BinaryTreeInfo {
             p = s;
         }
         Node <K,V> replacement = (p.left != null ? p.left : p.right);
-
-
         //替换节点不为空
         if (replacement != null) {
             replacement.parent = p.parent;
@@ -446,86 +521,6 @@ RedBlackTree<K,V> implements BinaryTreeInfo {
             return node.value;
         }
         return null;
-    }
-    private void removeFix(Node<K,V> node){
-        if(node!=root&&colorOf(node)==BLACK){
-            //如果当前node是左孩子
-            if(node==leftOf(parentNode(node))){
-                //获取兄弟节点
-                Node<K,V> slider=rightOf(parentNode(node));
-
-                //找当真正的兄弟节点(如果此时的兄弟节点是红色 说明真正的兄弟节点在下边一层 因为红色节点会向上一层合并) 需要旋转
-                if (colorOf(slider) == RED) {
-                    setColor(slider, BLACK);
-                    setColor(parentNode(node), RED);
-                    leftRotate (parentNode(node));
-
-                    //让slider指向真正的兄弟节点
-                    slider = rightOf(parentNode(node));
-                }
-
-                //如果兄弟节点的左右节点都为空 牺牲兄弟节点
-                if(colorOf(leftOf(slider))==BLACK&&colorOf(rightOf(slider))==BLACK){
-                    setColor(slider, RED);//让兄弟节点改成红色
-                    node = parentNode(node);
-                }
-
-                //兄弟节点能够借节点
-                else{
-                    //如果是三节点 旋转操作一下
-                    //如果右节点为空 说明一定有左节点
-                    if(colorOf(rightOf(slider))==BLACK){
-                        //先将兄弟节点变红
-                        setColor(slider,RED);
-                        //兄弟节点的左节点变黑
-                        setColor(leftOf(slider),BLACK);
-                        //对兄的节点进行右旋
-                        rightRotate(slider);
-
-                        //更新兄弟节点
-                        slider=rightOf(parentNode(node));
-                    }
-                    //三节点和四节点的公共代码来到这儿
-
-                    setColor(slider,colorOf(parentNode(node)));//将兄弟节点染成父亲节点的颜色
-                    setColor(parentNode(node),BLACK);//将父亲染成黑色
-                    setColor(rightOf(slider), BLACK);//将兄弟节点的右孩子染成黑色
-                    rightRotate(parentNode(node));//围着父亲右旋
-                    //退出循环
-                    node=root;
-                }
-            }
-
-            else { // symmetric
-                Node <K,V> sib = leftOf(parentNode(node));
-
-                if (colorOf(sib) == RED) {
-                    setColor(sib, BLACK);
-                    setColor(parentNode(node), RED);
-                    rightRotate(parentNode(node));
-                    sib = leftOf(parentNode(node));
-                }
-
-                if (colorOf(rightOf(sib)) == BLACK &&
-                        colorOf(leftOf(sib)) == BLACK) {
-                    setColor(sib, RED);
-                    node = parentNode(node);
-                } else {
-                    if (colorOf(leftOf(sib)) == BLACK) {
-                        setColor(rightOf(sib), BLACK);
-                        setColor(sib, RED);
-                        leftRotate(sib);
-                        sib = leftOf(parentNode(node));
-                    }
-                    setColor(sib, colorOf(parentNode(node)));
-                    setColor(parentNode(node), BLACK);
-                    setColor(leftOf(sib), BLACK);
-                    rightRotate(parentNode(node));
-                    node = root;
-                }
-            }
-        }
-        setColor(node,BLACK);
     }
     //删除之后做调整
     private void afterRemove(Node<K,V> x) {
@@ -610,20 +605,5 @@ RedBlackTree<K,V> implements BinaryTreeInfo {
         }
         return Math.max(doHeight(node.left),doHeight(node.right))+1;
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 }
