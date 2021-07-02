@@ -125,81 +125,50 @@ public class RedBlackTree<K,V> implements BinaryTreeInfo {
         return node == null ? BLACK : node.color;
     }
     //插入之后调整，能来到这儿的节点一定不是根节点
-    private void putAfter(Node<K,V> node){
-        //插入的节点都是红色节点
-        node.color=RED;
-        while(node!=null&&node!=root&&node.parent.color== RED){
-            //裂变情况
-            //如果父亲是爷爷的左孩子
-            Node<K,V> parent=parentNode(node);
-            Node<K,V> grand=parent.parent;
-            //如果父亲节点是爷爷节点的左节点
-            if(parent==leftOf(grand)){
-                //获取叔叔节点
-                Node<K,V> uncle=parentNode(parentNode(node)).right;
-                //RED说明叔叔节点一定不为空 空节点颜色是黑色的 与四节点进行合并 需要分裂 递归操作
-                if(colorOf(uncle)==RED){
-                    //将叔叔节点设置成为黑色
-                    setColor(uncle,BLACK);
-
-                    //将parent设置成为黑色
-                    setColor(parent,BLACK);
-
-                    //将爷爷节点设置成为红色
-                    setColor(grand,RED);
-                    //爷爷节点继续递归操作
-                    node=grand;
-                }
-                else{
-
-                    //如果当前节点是父亲的右节点 并且没有叔叔节点
-                    if(node==rightOf(parent)){
-                        //沿着父节点左旋先左旋一下变成标准的左三情况
-                        leftRotate(parent);
+    private void afterPut(Node<K,V> node){
+        if(node!=null){
+            node.color=RED;
+            while(node!=root&&parentNode(node).color==RED){
+                if(parentNode(node)==leftOf(parentNode(parentNode(node)))){
+                    Node<K,V> uncle=rightOf(parentNode(parentNode(node)));
+                    if(colorOf(uncle)==RED){
+                        setColor(uncle,BLACK);
+                        setColor(parentNode(node),BLACK);
+                        setColor(parentNode(parentNode(node)),RED);
+                        node=parentNode(parentNode(node));
                     }
 
-                    //将parent变黑 爷爷变红 退出循环
-                    setColor(parent,BLACK);
-                    setColor(grand,RED);
-                    //沿着爷爷右旋
-                    rightRotate(grand);
+                    else{
+                        if(node==rightOf(parentNode(node))){
+                            leftRotate(parentNode(node));
+                        }
+                        setColor(parentNode(node),BLACK);
+                        setColor(parentNode(parentNode(node)),RED);
+                        rightRotate(parentNode(parentNode(node)));
+                    }
                 }
 
-            }
-            //如果父亲是爷爷节点的右节点
-            else{
-                //获取叔叔节点
-                Node<K,V> uncle=parentNode(parentNode(node)).left;
-
-                if(colorOf(uncle)==RED){
-                    setColor(uncle,BLACK);
-                    setColor(parent,BLACK);
-                    setColor(grand,RED);
-                    //爷爷节点继续递归操作
-                    node=grand;
-                }
-
-                else{
-
-                    //如果当前节点是父亲的左节点 并且没有叔叔节点
-                    if(node==leftOf(parent)){
-                        //沿着父节点左旋先右旋一下变成标准的右三情况
-                        rightRotate(parent);
+                else {
+                    Node<K,V> uncle=leftOf(parentNode(parentNode(node)));
+                    if(colorOf(uncle)==RED){
+                        setColor(uncle,BLACK);
+                        setColor(parentNode(node),BLACK);
+                        setColor(parentNode(parentNode(node)),RED);
+                        node=parentNode(parentNode(node));
                     }
 
-                    //将parent变黑 爷爷变红
-                    setColor(parent,BLACK);
-                    setColor(grand,RED);
-                    //沿着爷爷左旋
-                    leftRotate(grand);
+                    else{
+                        if(node==leftOf(parentNode(node))){
+                            rightRotate(parentNode(node));
+                        }
+                        setColor(parentNode(node),BLACK);
+                        setColor(parentNode(parentNode(node)),RED);
+                        leftRotate(parentNode(parentNode(node)));
+                    }
                 }
             }
         }
-        root.color=BLACK;
     }
-
-
-
     private void removeFix(Node<K,V> node){
         while(node!=root&&colorOf(node)==BLACK){
             //如果当前node是左孩子
@@ -279,6 +248,79 @@ public class RedBlackTree<K,V> implements BinaryTreeInfo {
         }
         setColor(node,BLACK);
     }
+    private void putAfter(Node<K,V> node){
+        //插入的节点都是红色节点
+        node.color=RED;
+        while(node!=null&&node!=root&&node.parent.color== RED){
+            //裂变情况
+            //如果父亲是爷爷的左孩子
+            Node<K,V> parent=parentNode(node);
+            Node<K,V> grand=parent.parent;
+            //如果父亲节点是爷爷节点的左节点
+            if(parent==leftOf(grand)){
+                //获取叔叔节点
+                Node<K,V> uncle=parentNode(parentNode(node)).right;
+                //RED说明叔叔节点一定不为空 空节点颜色是黑色的 与四节点进行合并 需要分裂 递归操作
+                if(colorOf(uncle)==RED){
+                    //将叔叔节点设置成为黑色
+                    setColor(uncle,BLACK);
+
+                    //将parent设置成为黑色
+                    setColor(parent,BLACK);
+
+                    //将爷爷节点设置成为红色
+                    setColor(grand,RED);
+                    //爷爷节点继续递归操作
+                    node=grand;
+                }
+                else{
+
+                    //如果当前节点是父亲的右节点 并且没有叔叔节点
+                    if(node==rightOf(parent)){
+                        //沿着父节点左旋先左旋一下变成标准的左三情况
+                        leftRotate(parent);
+                    }
+
+                    //将parent变黑 爷爷变红 退出循环
+                    setColor(parent,BLACK);
+                    setColor(grand,RED);
+                    //沿着爷爷右旋
+                    rightRotate(grand);
+                }
+
+            }
+            //如果父亲是爷爷节点的右节点
+            else{
+                //获取叔叔节点
+                Node<K,V> uncle=parentNode(parentNode(node)).left;
+
+                if(colorOf(uncle)==RED){
+                    setColor(uncle,BLACK);
+                    setColor(parent,BLACK);
+                    setColor(grand,RED);
+                    //爷爷节点继续递归操作
+                    node=grand;
+                }
+
+                else{
+
+                    //如果当前节点是父亲的左节点 并且没有叔叔节点
+                    if(node==leftOf(parent)){
+                        //沿着父节点左旋先右旋一下变成标准的右三情况
+                        rightRotate(parent);
+                    }
+
+                    //将parent变黑 爷爷变红
+                    setColor(parent,BLACK);
+                    setColor(grand,RED);
+                    //沿着爷爷左旋
+                    leftRotate(grand);
+                }
+            }
+        }
+        root.color=BLACK;
+    }
+
 
     /**
      * 如果有comparator 就调用comparator比较器进行比较
@@ -482,6 +524,7 @@ public class RedBlackTree<K,V> implements BinaryTreeInfo {
         Node <K,V> replacement = (p.left != null ? p.left : p.right);
         //替换节点不为空
         if (replacement != null) {
+            //先删除，在调整
             replacement.parent = p.parent;
             if (p.parent == null)
                 root = replacement;
@@ -547,13 +590,12 @@ public class RedBlackTree<K,V> implements BinaryTreeInfo {
                     setColor(sib, colorOf(parentNode(x)));
                     setColor(parentNode(x), BLACK);
                     setColor(rightOf(sib), BLACK);
-                    rightRotate(parentNode(x));
+                    leftRotate(parentNode(x));
                     x = root;
                 }
             }
             else { // symmetric
                 Node <K,V> sib = leftOf(parentNode(x));
-
                 if (colorOf(sib) == RED) {
                     setColor(sib, BLACK);
                     setColor(parentNode(x), RED);
@@ -582,10 +624,6 @@ public class RedBlackTree<K,V> implements BinaryTreeInfo {
         }
         setColor(x, BLACK);
     }
-
-
-
-
     public int height(){
         if(root==null){
             return 0;

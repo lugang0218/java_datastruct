@@ -1,17 +1,8 @@
 package com.hubu;
-
 import java.util.Comparator;
-import java.util.Objects;
-
 public class ArrayBinaryHeap <T> extends AbstractBinaryHeap<T> implements Heap<T>{
-
     private T elementData[]=null;
-
-
     private int capacity;
-
-
-
     private static final int DEFAULT_CAPACITY=10;
     public ArrayBinaryHeap(Comparator<T> comparator) {
 
@@ -67,8 +58,6 @@ public class ArrayBinaryHeap <T> extends AbstractBinaryHeap<T> implements Heap<T
     public T get() {
         return elementData!=null&&size>0?elementData[0]:null;
     }
-
-
     //删除堆中的最大值
     @Override
     public T remove() {

@@ -1,17 +1,11 @@
 package com.hubu.tree;
-import com.hubu.tree.printer.BinaryTrees;
-import java.util.Comparator;
 public class RedBlackTreeTest {
     public static void main(String[] args) {
-        RedBlackTree<Integer,Integer> redBlackTree=new RedBlackTree<>(new Comparator<Integer>() {
-            @Override
-            public int compare(Integer o1, Integer o2) {
-                return o1-o2;
-            }
-        });
-        for(int i=1;i<=8;i++){
-            redBlackTree.put(i,i);
+        float []array={4,3,6,1,3,5,8,0,7,10,6.5f,7.5f,9,11};
+        RedBlackTree<Float,Float> redBlackTree=new RedBlackTree<>(null);
+        for(int i=0;i<array.length;i++){
+            redBlackTree.put(array[i],array[i]);
         }
-        BinaryTrees.print(redBlackTree, BinaryTrees.PrintStyle.LEVEL_ORDER);
+        redBlackTree.remove(5.0f);
     }
 }
