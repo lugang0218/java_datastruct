@@ -1,4 +1,6 @@
 package com.hubu.tree;
+import com.hubu.tree.printer.BinaryTrees;
+
 import java.util.Comparator;
 public class BinarySearchTreeTest {
     public static void main(String[] args) {
@@ -20,6 +22,6 @@ public class BinarySearchTreeTest {
         binarySearchTree.add(55);
         binarySearchTree.add(70);
         binarySearchTree.add(100);
-        binarySearchTree.preOrder();
+        BinaryTrees.print(binarySearchTree);
     }
 }

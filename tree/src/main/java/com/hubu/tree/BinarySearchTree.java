@@ -1,7 +1,9 @@
 package com.hubu.tree;
+import com.hubu.tree.printer.BinaryTreeInfo;
+
 import java.util.Comparator;
 import java.util.LinkedList;
-public class  BinarySearchTree<T> extends AbstractTree<T> implements Tree<T>{
+public class  BinarySearchTree<T> extends AbstractTree<T> implements Tree<T>, BinaryTreeInfo {
     private Comparator comparator;
     protected Node<T> root;
     public BinarySearchTree(Printer<T> printer,Comparator<T> comparator){
@@ -324,6 +326,27 @@ public class  BinarySearchTree<T> extends AbstractTree<T> implements Tree<T>{
             }
         }
     }
+
+    @Override
+    public Object root() {
+        return root;
+    }
+
+    @Override
+    public Object left(Object node) {
+        return ((Node) node).left;
+    }
+
+    @Override
+    public Object right(Object node) {
+        return ((Node) node).right;
+    }
+
+    @Override
+    public Object string(Object node) {
+        return ((Node) node).value.toString();
+    }
+
     static class Node<T>{
         T value;
         private Node<T> left;

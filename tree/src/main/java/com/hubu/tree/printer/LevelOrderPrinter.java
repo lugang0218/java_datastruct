@@ -515,7 +515,6 @@ public class LevelOrderPrinter extends Printer {
 			}
 		}
 	}
-
 	private static class LevelInfo {
 		int leftX;
 		int rightX;

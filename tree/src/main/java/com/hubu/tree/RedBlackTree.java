@@ -2,6 +2,7 @@ package com.hubu.tree;
 import com.hubu.tree.printer.BinaryTreeInfo;
 import java.util.Comparator;
 import java.util.LinkedList;
+import java.util.Properties;
 import java.util.Queue;
 public class RedBlackTree<K,V> implements BinaryTreeInfo {
     private int size;
@@ -630,10 +631,7 @@ public class RedBlackTree<K,V> implements BinaryTreeInfo {
         }
         return doHeight(root);
     }
-
-
     //求树的高度
-
     private int doHeight(Node<K,V> node){
         if(node==null){
             return 0;
@@ -643,5 +641,4 @@ public class RedBlackTree<K,V> implements BinaryTreeInfo {
         }
         return Math.max(doHeight(node.left),doHeight(node.right))+1;
     }
-
 }
