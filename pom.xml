@@ -16,6 +16,7 @@
         <module>map</module>
         <module>set</module>
         <module>util</module>
+        <module>thread</module>
     </modules>
 
 </project>

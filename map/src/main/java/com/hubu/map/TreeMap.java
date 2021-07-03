@@ -1,6 +1,8 @@
 package com.hubu.map;
 import com.hubu.tree.RedBlackTree;
 import java.util.Comparator;
+import java.util.HashMap;
+
 /**
  *
  * 用红黑树实现TreeMap

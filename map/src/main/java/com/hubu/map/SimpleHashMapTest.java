@@ -1,33 +1,46 @@
 package com.hubu.map;
-import java.util.Objects;
+import org.junit.Test;
+import java.util.UUID;
 public class SimpleHashMapTest {
     public static void main(String[] args) {
-        SimpleHashMap<Person, String> map = new SimpleHashMap<>(16);
-        map.put(new Person(21,"lugang"),"hello");
-        map.put(new Person(22,"lugang"),"hello");
-        map.put(new Person(23,"lugang"),"hello");
-        map.put(new Person(24,"lugang"),"hello");
-        Person person=new Person(21,"lugang");
-        map.put(new Person(25,"lugang"),"hello");
-        map.get(person);
+        SimpleHashMap<String,String> map=new SimpleHashMap<>();
+        map.put(UUID.randomUUID().toString(),UUID.randomUUID().toString());
+        map.put(UUID.randomUUID().toString(),UUID.randomUUID().toString());
+        map.put(UUID.randomUUID().toString(),UUID.randomUUID().toString());
+        map.put(UUID.randomUUID().toString(),UUID.randomUUID().toString());
+        map.put(UUID.randomUUID().toString(),UUID.randomUUID().toString());
+        map.put(UUID.randomUUID().toString(),UUID.randomUUID().toString());
+        map.put(UUID.randomUUID().toString(),UUID.randomUUID().toString());
+        map.put(UUID.randomUUID().toString(),UUID.randomUUID().toString());
+        map.put(UUID.randomUUID().toString(),UUID.randomUUID().toString());
+        map.put(UUID.randomUUID().toString(),UUID.randomUUID().toString());
+        map.put(UUID.randomUUID().toString(),UUID.randomUUID().toString());
+        map.put(UUID.randomUUID().toString(),UUID.randomUUID().toString());
+        map.put(UUID.randomUUID().toString(),UUID.randomUUID().toString());
+        map.put(UUID.randomUUID().toString(),UUID.randomUUID().toString());
+        map.put(UUID.randomUUID().toString(),UUID.randomUUID().toString());
+        map.put(UUID.randomUUID().toString(),UUID.randomUUID().toString());
+        map.put(UUID.randomUUID().toString(),UUID.randomUUID().toString());
+        map.put(UUID.randomUUID().toString(),UUID.randomUUID().toString());
+        map.put(UUID.randomUUID().toString(),UUID.randomUUID().toString());
+        map.put(UUID.randomUUID().toString(),UUID.randomUUID().toString());
+        map.put(UUID.randomUUID().toString(),UUID.randomUUID().toString());
+        map.put(UUID.randomUUID().toString(),UUID.randomUUID().toString());
+        map.put(UUID.randomUUID().toString(),UUID.randomUUID().toString());
+        map.put(UUID.randomUUID().toString(),UUID.randomUUID().toString());
+        map.put(UUID.randomUUID().toString(),UUID.randomUUID().toString());
+        map.put(UUID.randomUUID().toString(),UUID.randomUUID().toString());
+        map.put("hello world","world hello");
+        String hello_world = map.get("hello world");
+        map.remove("hello world");
+
     }
-    static class Person{
-        public int age;
-        public String name;
-        public Person(int age,String name){
-            this.age=age;
-            this.name=name;
-        }
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-            Person person = (Person) o;
-            return age == person.age && Objects.equals(name, person.name);
-        }
-        @Override
-        public int hashCode() {
-            return Objects.hash(age, name);
-        }
+    /**
+     * 测试右移 右移n位，就出一2的n次方
+     */
+    @Test
+    public void test(){
+        byte a=12;
+        System.out.println(a>>1);
     }
 }

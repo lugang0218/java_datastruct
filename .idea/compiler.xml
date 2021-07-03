@@ -8,16 +8,17 @@
         <outputRelativeToContentRoot value="true" />
         <module name="stack" />
         <module name="set" />
-        <module name="util" />
         <module name="tree" />
         <module name="grap" />
-        <module name="window" />
         <module name="sort" />
+        <module name="thread" />
         <module name="list" />
+        <module name="bfs" />
+        <module name="util" />
+        <module name="window" />
         <module name="heap" />
         <module name="map" />
         <module name="queue" />
-        <module name="bfs" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -31,6 +32,7 @@
       <module name="set" target="8" />
       <module name="sort" target="8" />
       <module name="stack" target="8" />
+      <module name="thread" target="8" />
       <module name="tree" target="8" />
       <module name="util" target="8" />
       <module name="window" target="8" />
