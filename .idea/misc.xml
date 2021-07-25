@@ -9,15 +9,19 @@
         <option value="$PROJECT_DIR$/queue/pom.xml" />
         <option value="$PROJECT_DIR$/stack/pom.xml" />
         <option value="$PROJECT_DIR$/bfs/pom.xml" />
-        <option value="$PROJECT_DIR$/window/pom.xml" />
         <option value="$PROJECT_DIR$/heap/pom.xml" />
         <option value="$PROJECT_DIR$/grap/pom.xml" />
         <option value="$PROJECT_DIR$/sort/pom.xml" />
         <option value="$PROJECT_DIR$/map/pom.xml" />
         <option value="$PROJECT_DIR$/set/pom.xml" />
-        <option value="$PROJECT_DIR$/util/pom.xml" />
-        <option value="$PROJECT_DIR$/thread/pom.xml" />
+        <option value="$PROJECT_DIR$/concurrent/pom.xml" />
+        <option value="$PROJECT_DIR$/algorithm/pom.xml" />
       </list>
+    </option>
+    <option name="ignoredFiles">
+      <set>
+        <option value="$PROJECT_DIR$/thread/pom.xml" />
+      </set>
     </option>
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" project-jdk-name="1.8" project-jdk-type="JavaSDK">

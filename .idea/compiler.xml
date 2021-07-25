@@ -9,25 +9,27 @@
         <module name="stack" />
         <module name="set" />
         <module name="tree" />
+        <module name="concurrent" />
         <module name="grap" />
         <module name="sort" />
-        <module name="thread" />
         <module name="list" />
         <module name="bfs" />
-        <module name="util" />
-        <module name="window" />
         <module name="heap" />
         <module name="map" />
         <module name="queue" />
+        <module name="algorithm" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="algorithm" target="8" />
       <module name="bfs" target="8" />
+      <module name="concurrent" target="8" />
       <module name="datastruct" target="1.5" />
       <module name="grap" target="8" />
       <module name="heap" target="8" />
       <module name="list" target="8" />
       <module name="map" target="8" />
+      <module name="nio" target="8" />
       <module name="queue" target="8" />
       <module name="set" target="8" />
       <module name="sort" target="8" />

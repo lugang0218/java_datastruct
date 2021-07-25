@@ -40,7 +40,7 @@ public class SingleQueue<T> extends AbstractQueue<T> implements Queue<T> {
     }
 
     @Override
-    public T pool() {
+    public T poll() {
         if(head==null){
             return null;
         }

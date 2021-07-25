@@ -8,10 +8,10 @@ public class DoubleQueueTest {
         queue.offer(3);
         queue.offer(4);
         queue.offer(5);
-        System.out.println(queue.pool());
-        System.out.println(queue.pool());
-        System.out.println(queue.pool());
-        System.out.println(queue.pool());
-        queue.pool();
+        System.out.println(queue.poll());
+        System.out.println(queue.poll());
+        System.out.println(queue.poll());
+        System.out.println(queue.poll());
+        queue.poll();
     }
 }

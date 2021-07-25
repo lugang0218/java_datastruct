@@ -6,6 +6,8 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+import java.util.concurrent.locks.ReentrantLock;
+
 
 /**
 
@@ -33,7 +35,6 @@ public class LevelOrderPrinter extends Printer {
 
 	public LevelOrderPrinter(BinaryTreeInfo tree) {
 		super(tree);
-
 		root = new Node(tree.root(), tree);
 		maxWidth = root.width;
 	}

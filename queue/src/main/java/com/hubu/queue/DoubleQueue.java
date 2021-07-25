@@ -35,7 +35,7 @@ public class DoubleQueue<T> extends AbstractQueue<T> implements Queue<T> {
     }
 
     @Override
-    public T pool() {
+    public T poll() {
         if(size==0){
             return null;
         }

@@ -7,7 +7,7 @@ public interface Queue<T> {
     boolean contains(T value);
     void clear();
     void offer(T value);
-    T pool();
+    T poll();
     T peek();
     boolean isEmpty();
 }

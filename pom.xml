@@ -11,12 +11,11 @@
         <module>list</module>
         <module>tree</module>
         <module>queue</module>
-        <module>window</module>
         <module>heap</module>
         <module>map</module>
         <module>set</module>
-        <module>util</module>
-        <module>thread</module>
+        <module>stack</module>
+        <module>algorithm</module>
     </modules>
 
 </project>
