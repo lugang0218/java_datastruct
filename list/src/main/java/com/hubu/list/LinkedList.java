@@ -1,9 +1,7 @@
 package com.hubu.list;
-
 import com.hubu.list.util.InsertPolicy;
 import com.hubu.list.util.LinkedListPrinter;
 import com.hubu.list.util.Printer;
-
 public class LinkedList<T> extends AbstractList<T> implements List<T>{
     //默认策略
     private InsertPolicy defaultInsertPolicy=InsertPolicy.Tail;
@@ -88,7 +86,7 @@ public class LinkedList<T> extends AbstractList<T> implements List<T>{
             }
         }
         else if(index==size){
-            Node<T> l=tail;//必须要用l，否则第一个节点会失效
+            Node<T> l=tail;
             newNode.prev=l;
             tail=newNode;
             l.next=newNode;
@@ -173,9 +171,9 @@ public class LinkedList<T> extends AbstractList<T> implements List<T>{
         tail=tempTail;
     }
     static class Node<T> {
-        private T value;
-        private Node<T> next;
-        private Node<T> prev;
+          T value;
+         Node<T> next;
+         Node<T> prev;
 
         public Node(T value, Node<T> prev, Node<T> next) {
             this.value = value;
@@ -215,6 +213,4 @@ public class LinkedList<T> extends AbstractList<T> implements List<T>{
             current=current.next;
         }
     }
-
-
 }
