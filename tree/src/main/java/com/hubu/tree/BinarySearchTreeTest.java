@@ -1,5 +1,6 @@
 package com.hubu.tree;
 import com.hubu.tree.printer.BinaryTrees;
+import com.hubu.util.ArrayUtils;
 
 import java.util.Comparator;
 public class BinarySearchTreeTest {
@@ -12,16 +13,19 @@ public class BinarySearchTreeTest {
                 return o1-o2;
             }
         });
-        binarySearchTree.add(80);
-        binarySearchTree.add(50);
-        binarySearchTree.add(30);
-        binarySearchTree.add(60);
-        binarySearchTree.add(15);
-        binarySearchTree.add(40);
-        binarySearchTree.add(14);
-        binarySearchTree.add(55);
-        binarySearchTree.add(70);
-        binarySearchTree.add(100);
-        BinaryTrees.print(binarySearchTree);
+        Integer array[]=ArrayUtils.randomInteger(1000000,1,1000000000);
+        for(int i=0;i<1000000;i++){
+            binarySearchTree.add(array[i]);
+        }
+        System.out.println(binarySearchTree.height());
+
+
+        RedBlackTree<Integer,Integer> redBlackTree=new RedBlackTree<>(null);
+
+        for(int i=0;i<1000000;i++){
+            redBlackTree.put(array[i],array[i]);
+        }
+        System.out.println(redBlackTree.height());
+//
     }
 }

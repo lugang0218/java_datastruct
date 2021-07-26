@@ -15,4 +15,8 @@ public class TreeSet<T>{
     public int height(){
         return redBlackTree.height();
     }
+
+    public int size(){
+        return redBlackTree.size();
+    }
 }

@@ -30,6 +30,10 @@ public class RedBlackTree<K,V> implements BinaryTreeInfo {
         rightNode.left=node;
         node.parent=rightNode;
     }
+
+    public int size(){
+        return size;
+    }
     private void rightRotate(Node<K,V> node){
         Node<K,V> leftNode=node.left;
         if(leftNode.right!=null){
@@ -74,9 +78,10 @@ public class RedBlackTree<K,V> implements BinaryTreeInfo {
         }
     }
     public void put(K key,V value){
-        size++;
+
         //根节点不用做任何操作
         if(root==null){
+            size++;
             root=new Node<>(key,value,null,null,null,true);
             return;
         }
@@ -106,6 +111,7 @@ public class RedBlackTree<K,V> implements BinaryTreeInfo {
             parent.left=newNode;
         }
         putAfter(newNode);
+        size++;
     }
 
     private Node<K,V> leftOf(Node<K,V> node) {
