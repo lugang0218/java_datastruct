@@ -11,7 +11,6 @@ public class ArrayList <T> extends AbstractList<T> implements List<T>{
     public void clear() {
 
     }
-
     @Override
     public boolean add(T value) {
         return false;
