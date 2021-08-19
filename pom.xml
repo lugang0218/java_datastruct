@@ -15,7 +15,6 @@
         <module>map</module>
         <module>set</module>
         <module>stack</module>
-        <module>algorithm</module>
     </modules>
 
 </project>

@@ -4,12 +4,7 @@ import java.util.Comparator;
 
 public abstract class AbstractBinaryHeap<T> implements Heap<T>{
     protected int size=0;
-
-
     protected Comparator<T> comparator;
-
-
-
     public AbstractBinaryHeap(Comparator<T> comparator){
         this.comparator=comparator;
     }

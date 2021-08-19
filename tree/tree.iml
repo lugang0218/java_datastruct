@@ -12,6 +12,6 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="list" />
-    <orderEntry type="module" module-name="sort" />
+    <orderEntry type="library" name="Maven: com.hubu:sort:1.0-SNAPSHOT" level="project" />
   </component>
 </module>

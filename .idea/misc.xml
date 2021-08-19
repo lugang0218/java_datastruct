@@ -11,11 +11,9 @@
         <option value="$PROJECT_DIR$/bfs/pom.xml" />
         <option value="$PROJECT_DIR$/heap/pom.xml" />
         <option value="$PROJECT_DIR$/grap/pom.xml" />
-        <option value="$PROJECT_DIR$/sort/pom.xml" />
         <option value="$PROJECT_DIR$/map/pom.xml" />
         <option value="$PROJECT_DIR$/set/pom.xml" />
         <option value="$PROJECT_DIR$/concurrent/pom.xml" />
-        <option value="$PROJECT_DIR$/algorithm/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">

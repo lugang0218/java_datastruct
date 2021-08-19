@@ -1,31 +1,13 @@
 package com.hubu.tree;
-
-/******************************
- *
- * 码炫课堂技术交流Q群：963060292
- * 主讲：smart哥
- *
- ******************************/
 public class TreeOperation {
-    /*
-    树的结构示例：
-              1
-            /   \
-          2       3
-         / \     / \
-        4   5   6   7
-    */
-
-    // 用于获得树的层数
     public static int getTreeDepth(RedBlackTree.Node root) {
         return root == null ? 0 : (1 + Math.max(getTreeDepth(root.getLeft()), getTreeDepth(root.getRight())));
     }
 
 
     private static void writeArray(RedBlackTree.Node currNode, int rowIndex, int columnIndex, String[][] res, int treeDepth) {
-        // 保证输入的树不为空
         if (currNode == null) return;
-        // 0、默认无色
+
 //       res[rowIndex][columnIndex] = String.valueOf(currNode.getValue());
         //1、颜色表示
         if(currNode.isColor()){//黑色，加色后错位比较明显
