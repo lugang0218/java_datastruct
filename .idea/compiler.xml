@@ -12,7 +12,6 @@
         <module name="concurrent" />
         <module name="grap" />
         <module name="list" />
-        <module name="bfs" />
         <module name="heap" />
         <module name="map" />
         <module name="queue" />

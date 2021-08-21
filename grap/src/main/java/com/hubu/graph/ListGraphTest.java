@@ -1,7 +1,6 @@
 package com.hubu.graph;
 
 public class ListGraphTest {
-
     public static void main(String[] args) {
         test();
     }

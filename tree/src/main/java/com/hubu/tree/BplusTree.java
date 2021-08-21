@@ -80,7 +80,6 @@ public class BplusTree <K extends Comparable<K>, V>{
 		root.insertOrUpdate(key, value, this);
  
 	}
- 
 	public BplusTree(int order) {
 		if (order < 3) {
 			System.out.print("order must be greater than 2");
@@ -90,22 +89,10 @@ public class BplusTree <K extends Comparable<K>, V>{
 		root = new BplusNode<K, V>(true, true);
 		head = root;
 	}
-
 	public static void main(String[] args) {
-
 		int size = 1000000;
 		int order = 100;
-//		 testRandomInsert(size, order);
-//
-//		 testOrderInsert(size, order);
-//
-//		 testRandomSearch(size, order);
-//
-		 testOrderSearch(size, order);
-//
-//		 testRandomRemove(size, order);
-//
-//		 testOrderRemove(size, order);
+		testOrderSearch(size, order);
 	}
 
 	private static void testOrderRemove(int size, int order) {
