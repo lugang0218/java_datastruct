@@ -1,5 +1,4 @@
 package com.hubu.tree;
-
 public interface Tree <T>{
     void add(T value);
     void clear();

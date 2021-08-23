@@ -1,8 +1,5 @@
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Singleton {
     private static Singleton singleton=null;
@@ -163,7 +160,6 @@ public class Singleton {
         return mid;
     }
     public static void main(String[] args) {
-        int []nums1=new int[]{8,8,7,7,7};
-        System.out.println(majorityElement(nums1));
+        Queue<Integer> queue=new LinkedList<>();
     }
 }

@@ -14,7 +14,6 @@ public class ListGraphTest {
 		graph.addEdge("V8","V16",24);
 		System.out.println("bfs");
 		graph.bfs("V0");
-
 		System.out.println("dfs");
 		graph.dfs("V0");
     }

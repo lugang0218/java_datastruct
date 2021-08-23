@@ -2,7 +2,6 @@ package com.hubu.tree;
 import com.hubu.tree.printer.BinaryTreeInfo;
 import java.util.Comparator;
 import java.util.LinkedList;
-import java.util.Properties;
 import java.util.Queue;
 public class RedBlackTree<K,V> implements BinaryTreeInfo {
     private int size;

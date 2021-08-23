@@ -4,8 +4,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 
 public class MainTest {
-
-
     public static int singleNumber(int[] nums) {
 
 
