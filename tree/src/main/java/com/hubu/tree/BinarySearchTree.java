@@ -1,4 +1,5 @@
 package com.hubu.tree;
+import com.hubu.list.AbstractList;
 import com.hubu.tree.printer.BinaryTreeInfo;
 
 import java.util.Comparator;
@@ -6,19 +7,36 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
-public class BinarySearchTree<T> implements BinaryTreeInfo {
+public class BinarySearchTree<T> extends AbstractTree<T> implements BinaryTreeInfo,Tree<T> {
     private Comparator<T> comparator;
     private Node<T> root;
-    public BinarySearchTree(Comparator<T> comparator){
-        this.comparator=comparator;
+
+    public BinarySearchTree(Printer<T> printer, Comparator<T> comparator) {
+        super(printer, comparator);
     }
+    public BinarySearchTree(Comparator<T> comparator) {
+        super(null, comparator);
+    }
+
+
+    @Override
     public void add( T value){
+        size++;
         root =add(this.root,null,value);
     }
-    public Node<T> add(Node<T> node,T value){
+
+    @Override
+    public void clear() {
+
+    }
+    private  Node<T> add(Node<T> node,T value){
         if(node==null) {
             Node<T> newNode=new Node<>(value);
             return newNode;
+        }
+        else if(compare(value,node.value)==0){
+            size--;
+            node.value=value;
         }
         else if(compare(value,node.value)>0){
             node.right=add(node.right,value);
@@ -74,6 +92,7 @@ public class BinarySearchTree<T> implements BinaryTreeInfo {
     public void remove(T value){
         Node<T> node = getNode(root, value);
         if(node!=null) {
+            size--;
             remove(node);
         }
     }
@@ -177,12 +196,20 @@ public class BinarySearchTree<T> implements BinaryTreeInfo {
             return contains(node.left,value);
         }
     }
-    private int compare(T value1,T value2){
-        return comparator!=null?comparator.compare(value1,value2):((Comparable)value1).compareTo(value2);
+    @Override
+    public void afterAdd() {
+
     }
+
     public void preOrder(){
         preOrder(root);
     }
+
+    @Override
+    public void midOrder() {
+
+    }
+
     private void preOrder(Node<T> node){
         if(node==null) return;
         System.out.println(node.value);
@@ -251,17 +278,14 @@ public class BinarySearchTree<T> implements BinaryTreeInfo {
     public Object root() {
         return root;
     }
-
     @Override
     public Object left(Object node) {
         return ((Node)node).left;
     }
-
     @Override
     public Object right(Object node) {
         return ((Node)node).right;
     }
-
     @Override
     public Object string(Object node) {
         return ((Node)node).value;
