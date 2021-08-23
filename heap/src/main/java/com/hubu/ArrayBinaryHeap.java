@@ -15,8 +15,6 @@ public class ArrayBinaryHeap <T> extends AbstractBinaryHeap<T> implements Heap<T
             System.out.println(elementData[i]);
         }
     }
-
-
     public ArrayBinaryHeap(Comparator<T> comparator,int capacity){
         super(comparator);
         this.capacity=capacity;
@@ -27,11 +25,6 @@ public class ArrayBinaryHeap <T> extends AbstractBinaryHeap<T> implements Heap<T
             elementData=(T[])new Object[this.capacity];
         }
         elementData[size]=data;
-        //调整成为大顶堆
-        //当前节点的位置是 i
-        //左子节点的位置是 2i+1
-        //右子节点的位置是2i+2
-        //父亲节点的位置是i/2
         int index=size;
         int compareResult=0;
         while(index!=0){
@@ -49,11 +42,6 @@ public class ArrayBinaryHeap <T> extends AbstractBinaryHeap<T> implements Heap<T
 
         size++;
     }
-    /**
-     *
-     * 获取堆中的最大值
-     * @return
-     */
     @Override
     public T get() {
         return elementData!=null&&size>0?elementData[0]:null;

@@ -1,7 +1,5 @@
 package com.hubu.tree;
-import com.hubu.list.AbstractList;
 import com.hubu.tree.printer.BinaryTreeInfo;
-
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;

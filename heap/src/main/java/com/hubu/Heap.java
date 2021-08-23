@@ -10,8 +10,6 @@ public interface Heap<T> {
      *
      */
     T get();
-
-
     /**
      * 移除堆顶元素
      * @return

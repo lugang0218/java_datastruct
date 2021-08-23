@@ -145,7 +145,7 @@ public class RedBlackTree<K,V> implements BinaryTreeInfo {
                     }
 
                     else{
-                        if(node==rightOf(parentNode(node))){
+                        if(node==rightOf(parentOf(node))){
                             leftRotate(parentNode(node));
                         }
                         setColor(parentNode(node),BLACK);
@@ -175,6 +175,11 @@ public class RedBlackTree<K,V> implements BinaryTreeInfo {
             }
         }
     }
+
+    private Node<K, V> parentOf(Node<K, V> node) {
+        return node!=null?node.parent:null;
+    }
+
     private void removeFix(Node<K,V> node){
         while(node!=root&&colorOf(node)==BLACK){
             //如果当前node是左孩子
@@ -326,8 +331,6 @@ public class RedBlackTree<K,V> implements BinaryTreeInfo {
         }
         root.color=BLACK;
     }
-
-
     /**
      * 如果有comparator 就调用comparator比较器进行比较
      * @param key1
