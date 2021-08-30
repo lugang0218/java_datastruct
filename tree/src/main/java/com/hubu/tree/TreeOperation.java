@@ -3,8 +3,6 @@ public class TreeOperation {
     public static int getTreeDepth(RedBlackTree.Node root) {
         return root == null ? 0 : (1 + Math.max(getTreeDepth(root.getLeft()), getTreeDepth(root.getRight())));
     }
-
-
     private static void writeArray(RedBlackTree.Node currNode, int rowIndex, int columnIndex, String[][] res, int treeDepth) {
         if (currNode == null) return;
 

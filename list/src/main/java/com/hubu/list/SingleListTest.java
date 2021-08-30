@@ -9,6 +9,7 @@ public class SingleListTest {
         list.add(12);
         list.add(13);
         list.add(14);
+        list.reverse();
         list.show();
     }
 }

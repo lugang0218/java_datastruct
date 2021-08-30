@@ -1,6 +1,4 @@
-
 import java.util.*;
-
 public class Singleton {
     private static Singleton singleton=null;
     private static  Object lock=new Object();

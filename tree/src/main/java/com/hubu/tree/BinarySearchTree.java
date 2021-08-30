@@ -102,24 +102,17 @@ public class BinarySearchTree<T> extends AbstractTree<T> implements BinaryTreeIn
             node=s;
         }
 
-        Node<T> replaceNode=node.left!=null?node.left:node.right;
-        if(replaceNode!=null){
-            replaceNode.parent=node.parent;
+        Node<T> replacement=node.left!=null?node.left:node.right;
+        if(replacement!=null){
+            replacement.parent=node.parent;
             if(node.parent==null){
-                if(replaceNode==node.left){
-                    node.left=null;
-                }
-                else if(replaceNode==node.right){
-                    node.right=null;
-                }
-                root=replaceNode;
-                root.parent=null;
+                root=replacement;
             }
             else if(node==node.parent.left){
-                node.parent.left=replaceNode;
+                node.parent.left=replacement;
             }
             else if(node==node.parent.right){
-                node.parent.right=replaceNode;
+                node.parent.right=replacement;
             }
         }
         else if(node.parent==null) {

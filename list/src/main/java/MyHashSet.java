@@ -1,5 +1,4 @@
 class MyHashSet {
-    /** Initialize your data structure here. */
     static class Node{
         public int val;
         public Node next;
@@ -42,10 +41,6 @@ class MyHashSet {
         }
         return false;
     }
-
-
-    //["MyHashSet","add","add","contains","contains","add","contains","remove","contains"]
-    //[[],[1],[2],[1],[3],[2],[2],[2],[2]]
     public static void main(String[] args) {
         MyHashSet set=new MyHashSet();
         set.add(1);

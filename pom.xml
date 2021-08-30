@@ -15,6 +15,18 @@
         <module>map</module>
         <module>set</module>
         <module>stack</module>
+        <module>concurrent</module>
+        <module>grap</module>
+        <module>xshell</module>
     </modules>
+
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.13.1</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 
 </project>

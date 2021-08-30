@@ -78,7 +78,14 @@ public class RedBlackTree<K,V>{
         }
         afterPut(newNode);
     }
-
+    public int height(){
+        return height(root);
+    }
+    private int height(Node<K,V> node){
+        if(node==null) return 0;
+        else if(node.left==null&&node.right==null) return 1;
+        else return Math.max(height(node.left),height(node.right))+1;
+    }
     public V get(K key){
         Node<K, V> node = getNode(root, key);
         return node!=null?node.value:null;
@@ -154,7 +161,43 @@ public class RedBlackTree<K,V>{
             return p;
         }
     }
+
+    public V remove(K key){
+        Node<K, V> node = getNode(root, key);
+        if(node!=null) remove(node);
+        return node!=null?node.value:null;
+    }
     private void remove(Node<K,V> node){
+        if(node==null) return ;
+        if(node.left!=null&&node.right!=null){
+            Node<K,V> p=successor(node);
+            node.key=p.key;
+            node.value=p.value;
+            node=p;
+        }
+        Node<K,V> replacement=node.left!=null?node.left:node.right;
+        if(replacement!=null){
+            replacement.parent=node.parent;
+            if(node.parent==null){
+                root=replacement;
+            }
+            else if(node==node.parent.left){
+                node.parent.left=replacement;
+            }
+            else if(node==node.parent.right){
+                node.parent.right=replacement;
+            }
+            node.parent=node.left=node.right=null;
+        }else if(node.parent==null){
+            root=null;
+        }else{
+            if(node==node.parent.left){
+                node.parent.left=null;
+            }
+            else if(node==node.parent.right){
+                node.parent.right=null;
+            }
+        }
     }
     private void afterPut(Node<K,V> node){
         if(node!=null){

@@ -79,7 +79,7 @@ public class SingleList <T> extends AbstractList<T> implements List<T>{
             prev=current;
             current=next;
         }
-        head.next=null;
+//        head.next=null;
         head=prev;
     }
     @Override
@@ -179,6 +179,28 @@ public class SingleList <T> extends AbstractList<T> implements List<T>{
             cursor=cursor.next;
             return value;
         }
+    }
+
+
+
+    public void hello(){
+        head=reverse(head);
+        show();
+    }
+    public static  <T> void test(Node<T> node){
+        node=null;
+    }
+    public static<T> Node<T> reverse (Node<T> node){
+        Node<T> prev = null;
+        Node current = node;
+        Node next=null;
+        while (current != null) {
+            next =current.next;
+            current.next=prev;
+            prev=current;
+            current=next;
+        }
+        return prev;
     }
 }
 

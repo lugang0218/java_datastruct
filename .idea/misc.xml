@@ -13,10 +13,14 @@
         <option value="$PROJECT_DIR$/map/pom.xml" />
         <option value="$PROJECT_DIR$/set/pom.xml" />
         <option value="$PROJECT_DIR$/concurrent/pom.xml" />
+        <option value="$PROJECT_DIR$/../../source/Freedom-master/pom.xml" />
+        <option value="$PROJECT_DIR$/file/pom.xml" />
+        <option value="$PROJECT_DIR$/xshell/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">
       <set>
+        <option value="$PROJECT_DIR$/database/pom.xml" />
         <option value="$PROJECT_DIR$/thread/pom.xml" />
       </set>
     </option>
