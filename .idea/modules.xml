@@ -13,6 +13,7 @@
       <module fileurl="file://$PROJECT_DIR$/set/set.iml" filepath="$PROJECT_DIR$/set/set.iml" />
       <module fileurl="file://$PROJECT_DIR$/stack/stack.iml" filepath="$PROJECT_DIR$/stack/stack.iml" />
       <module fileurl="file://$PROJECT_DIR$/tree/tree.iml" filepath="$PROJECT_DIR$/tree/tree.iml" />
+      <module fileurl="file://$PROJECT_DIR$/trie/trie.iml" filepath="$PROJECT_DIR$/trie/trie.iml" />
       <module fileurl="file://$PROJECT_DIR$/xshell/xshell.iml" filepath="$PROJECT_DIR$/xshell/xshell.iml" />
     </modules>
   </component>

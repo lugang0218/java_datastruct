@@ -47,14 +47,20 @@ public class Trie {
         }
         node.isWord=false;
     }
+
     /**
-     *
-     * 返回以value开头的所有字符串
+     * 返回所有以value开头的单词
      * @param value
      * @return
      */
-    public List<String> returnAllPrev(String value){
+    public List<String> getAllWorldsByPrefix(String value){
         Node node = getPrefixNode(value);
+        /**
+         * 如果定位到node节点为空，不存在value，直接返回空
+         */
+        if(node==null){
+            return null;
+        }
         List<Character> list=new ArrayList<>();
         List<String> stringList=new ArrayList<>();
         dfs(node,stringList,list,value);
@@ -90,7 +96,6 @@ public class Trie {
         }
         Set<Character> keySet = node.children.keySet();
         for(Character item:keySet){
-            //当前节点的value存储在子节点集合的Map的关键字key中
             Node next = node.children.get(item);
             list.add(item);
             dfs(next,stringList,list,value);
@@ -98,18 +103,9 @@ public class Trie {
         }
     }
     static class Node{
-        //判断到当前节点是否是一个完整的单词
         boolean isWord;
         Map<Character,Node> children=null;
     }
-
-
-    /**
-     *
-     * 是否包含以value为前缀的字符串
-     * @param value
-     * @return
-     */
     public boolean prefix(String value){
         if(value==null||value.equals("")||value.length()==0){
             return false;

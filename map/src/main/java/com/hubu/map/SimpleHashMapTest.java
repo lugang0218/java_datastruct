@@ -1,6 +1,5 @@
 package com.hubu.map;
 import com.hubu.tree.Tree;
-import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +13,6 @@ public class SimpleHashMapTest {
         System.out.println(integer);
     }
 
-    @Test
     public void testTreeMap(){
         TreeMap<Integer,Integer> treeMap=new TreeMap<>();
         for(int i=0;i<1000000;i++){
@@ -24,7 +22,6 @@ public class SimpleHashMapTest {
         System.out.println(integer);
     }
 
-    @Test
     public void testArrayList(){
         List<Integer> list=new ArrayList<>();
         for(int i=0;i<1000000;i++){
@@ -35,7 +32,6 @@ public class SimpleHashMapTest {
     /**
      * 测试右移 右移n位，就出一2的n次方
      */
-    @Test
     public void test(){
         byte a=12;
         System.out.println(a>>1);

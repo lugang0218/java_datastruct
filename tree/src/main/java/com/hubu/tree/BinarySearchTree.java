@@ -1,11 +1,12 @@
 package com.hubu.tree;
 import com.hubu.tree.printer.BinaryTreeInfo;
+import java.io.Serializable;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
-
-public class BinarySearchTree<T> extends AbstractTree<T> implements BinaryTreeInfo,Tree<T> {
+public class BinarySearchTree<T> extends AbstractTree<T> implements BinaryTreeInfo,Tree<T>, Serializable {
+    private static final long serialVersionUID = -6849794470754667710L;
     private Comparator<T> comparator;
     private Node<T> root;
 
@@ -16,6 +17,10 @@ public class BinarySearchTree<T> extends AbstractTree<T> implements BinaryTreeIn
         super(null, comparator);
     }
 
+
+    public BinarySearchTree(){
+        super(null);
+    }
 
     @Override
     public void add( T value){
@@ -282,7 +287,8 @@ public class BinarySearchTree<T> extends AbstractTree<T> implements BinaryTreeIn
         return ((Node)node).value;
     }
 
-    static class Node<T> {
+    static class Node<T> implements Serializable {
+        private static final long serialVersionUID = -684979447075466771L;
         T value=null;
 
         Node<T> left;
