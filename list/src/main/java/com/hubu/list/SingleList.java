@@ -3,6 +3,9 @@ import com.hubu.list.util.InsertPolicy;
 import com.hubu.list.util.Iterator;
 import com.hubu.list.util.ListException;
 import com.hubu.list.util.Printer;
+
+import java.io.Serializable;
+
 public class SingleList <T> extends AbstractList<T> implements List<T>{
     private Node<T> head;
     public SingleList(Printer printer) {
@@ -132,7 +135,7 @@ public class SingleList <T> extends AbstractList<T> implements List<T>{
         System.out.println("触发垃圾回收");
     }
 
-    static class Node<E>{
+    static class Node<E> implements Serializable {
         protected E value;
         protected Node<E> next;
         public Node(E value,Node<E> next){

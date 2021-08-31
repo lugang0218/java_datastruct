@@ -1,8 +1,12 @@
 package com.hubu.list;
+
+import java.io.Serializable;
+
 /**
  * 接口
  */
-public interface List<T> {
+public interface List<T> extends Serializable {
+    static final long serialVersionUID = -6849794470754667710L;
     int size();
     boolean isEmpty();
     void clear();

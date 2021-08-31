@@ -1,9 +1,11 @@
 package com.hubu.tree;
 import com.hubu.tree.printer.BinaryTreeInfo;
+
+import java.io.Serializable;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.Queue;
-public class RedBlackTree<K,V> implements BinaryTreeInfo {
+public class RedBlackTree<K,V> implements BinaryTreeInfo , Serializable {
     private int size;
     private Node<K,V> root=null;
     private Comparator<K> comparator;
@@ -379,7 +381,7 @@ public class RedBlackTree<K,V> implements BinaryTreeInfo {
         return oldValue;
     }
 
-    static class Node<K,V>{
+    static class Node<K,V> implements Serializable{
         K key;
         V value;
         Node<K,V> parent;

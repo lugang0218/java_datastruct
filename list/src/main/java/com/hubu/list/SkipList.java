@@ -1,8 +1,9 @@
 package com.hubu.list;
 
+import java.io.Serializable;
 import java.util.Comparator;
 
-public class SkipList <K,V>{
+public class SkipList <K,V> implements Serializable {
     private static final int Max_LEVEL=32;
     private static final double P=0.25;
     /**
@@ -142,7 +143,7 @@ public class SkipList <K,V>{
     public boolean isEmpty(){
         return size()==0;
     }
-    private static class Node<K,V>{
+    private static class Node<K,V>  implements Serializable{
         K key;
         V value;
         Node<K, V>[] nexts;
