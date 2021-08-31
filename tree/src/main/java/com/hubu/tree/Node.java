@@ -66,7 +66,8 @@ public class Node<K extends Comparable<K>, V> {
         } else if (key.compareTo(entries.get(entries.size() - 1).getKey()) >= 0) {
             return children.get(children.size() - 1).get(key);
             //否则沿比key大的前一个子节点继续搜索 
-        } else {
+        }
+        else {
             int low = 0, high = entries.size() - 1, mid = 0;
             int comp;
             while (low <= high) {
@@ -376,8 +377,6 @@ public class Node<K extends Comparable<K>, V> {
                 parent.entries.set(preIndex, next.entries.remove(0));
                 return;
             }
-
-            // 同前面节点合并 
             if (previous != null
                     && (previous.children.size() <= tree.getOrder() / 2
                     || previous.children.size() <= 2)) {
