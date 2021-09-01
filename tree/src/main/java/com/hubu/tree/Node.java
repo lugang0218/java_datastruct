@@ -313,12 +313,7 @@ public class Node<K extends Comparable<K>, V> {
             }
         }
     }
-
-    /**
-     * 删除节点后中间节点的更新
-     */
     protected void updateRemove(BPlusTree<K, V> tree) {
-
         // 如果子节点数小于M / 2或者小于2，则需要合并节点 
         if (children.size() < tree.getOrder() / 2 || children.size() < 2) {
             if (isRoot) {
@@ -439,12 +434,6 @@ public class Node<K extends Comparable<K>, V> {
             }
         }
     }
-
-
-
-
-
-
     public V remove(K key, BPlusTree<K, V> tree) {
         //如果是叶子节点 
         if (isLeaf) {
@@ -485,12 +474,9 @@ public class Node<K extends Comparable<K>, V> {
                 parent.entries.set(index, next.entries.get(0));
                 return remove(key);
             }
-
             //同前面节点合并 
-            if (prev != null
-                    && prev.parent == parent
-                    && (prev.entries.size() <= tree.getOrder() / 2
-                    || prev.entries.size() <= 2)) {
+            if (prev != null && prev.parent == parent && (prev.entries.size() <= tree.getOrder() / 2 || prev.entries.size() <= 2)) {
+
                 V returnValue = remove(key);
                 for (int i = 0; i < entries.size(); i++) {
                     //将当前节点的关键字添加到前节点的末尾
@@ -520,12 +506,10 @@ public class Node<K extends Comparable<K>, V> {
                 }
                 parent.updateRemove(tree);
                 return returnValue;
+
             }
             //同后面节点合并
-            if (next != null
-                    && next.parent == parent
-                    && (next.entries.size() <= tree.getOrder() / 2
-                    || next.entries.size() <= 2)) {
+            if (next != null && next.parent == parent && (next.entries.size() <= tree.getOrder() / 2 || next.entries.size() <= 2)) {
                 V returnValue = remove(key);
                 for (int i = 0; i < next.entries.size(); i++) {
                     //从首位开始添加到末尾 

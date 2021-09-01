@@ -177,7 +177,7 @@ public class Node<K extends Comparable<K>, V> {
                 //如果拷贝到根节点
                 if(parent==null){
                     isRoot=false;
-                    Node<K,V> newParent=new Node<>(false);
+                    Node<K,V> newParent=new Node<>(false,true);
                     tree.setRoot(newParent);
                     leftNode.parent=newParent;
                     rightNode.parent=newParent;
@@ -458,17 +458,16 @@ public class Node<K extends Comparable<K>, V> {
             tree.setSize(tree.size()+1);
         }
     }
-
     /**
      * 二分删除关键字key
      * @param key
      * @return
      */
-    private V binarySearchRemove(K key){
-        int low=0;
-        int high=entries.size()-1;
-        int compareResult=0;
-        while(low<=high) {
+    private V binarySearchRemove(K key) {
+        int low = 0;
+        int high = entries.size() - 1;
+        int compareResult = 0;
+        while (low <= high) {
             int mid = (low + high) / 2;
             compareResult = ((Comparable) key).compareTo(entries.get(mid).getKey());
             if (compareResult > 0) {
@@ -480,5 +479,242 @@ public class Node<K extends Comparable<K>, V> {
             }
         }
         return null;
+    }
+
+
+
+    /**
+     *
+     *
+     * 删除节点
+     * @param
+     * @return
+     */
+    public V remove(K key,BPlusTree<K,V> tree){
+        if(binarySearch(key)==null){
+            return null;
+        }
+        if(isLeaf){
+            if(isRoot){
+                return binarySearchRemove(key);
+            }else if(isValid(tree.getOrder())){
+                return binarySearchRemove(key);
+            }else if(prev!=null&&prev.parent==parent&&prev.isValid(tree.getOrder())){
+                Map.Entry<K, V> entry = prev.entries.remove(prev.entries.size()-1);
+                entries.add(0, entry);
+                int index = parent.children.indexOf(prev);
+                parent.entries.set(index, entries.get(0));
+                return binarySearchRemove(key);
+            }else if(next!=null&&next.parent==parent&&next.isValid(tree.getOrder())){
+                Map.Entry<K, V> entry = next.entries.remove(0);
+                int index = parent.children.indexOf(this);
+                parent.entries.set(index,next.entries.get(0));
+                entries.add(entry);
+                return binarySearchRemove(key);
+            }else if(prev!=null&&prev.parent==parent&&!isValid(tree.getOrder())){
+                V result = binarySearchRemove(key);
+
+                 for(int i=0;i<entries.size();i++){
+                     prev.entries.add(entries.get(i));
+                 }
+                 parent.children.remove(prev);
+                 entries=prev.entries;
+                 prev.parent=null;
+                 prev.entries=null;
+
+                 if(prev.prev!=null){
+                     Node<K,V> temp=prev;
+
+                     temp.prev.next=this;
+
+                     this.prev=temp.prev;
+
+                     //断开这两个指向
+                     prev.prev=null;
+                     prev.next=null;
+                 }else{
+                     tree.setHead(this);
+                     prev.next=null;
+                     prev=null;
+                 }
+                 //父节点中重复的数据也删除掉
+                parent.entries.remove(parent.children.indexOf(this));
+
+                if(isValid(parent.entries.size(),tree.getOrder())){
+                    return result;
+                }
+                parent.afterRemove(tree);
+                return result;
+
+            }else if(next!=null&&next.parent==parent&&!isValid(tree.getOrder())){
+                //同后面节点合并
+                //当前节点直接删除key
+                V result = binarySearchRemove(key);
+
+                //将当前节点的数据添加到prev
+                for(int i=0;i<entries.size();i++){
+                    next.entries.add(entries.get(i));
+                }
+                parent.children.remove(next);
+                entries=next.entries;
+                next.parent=null;
+                next.entries=null;
+
+                if(next.next!=null){
+                    Node<K,V> temp=next;
+
+                    temp.next.prev=this;
+
+                    this.next=temp.next;
+
+                    //断开这两个指向
+                    next.next=null;
+                    next.prev=null;
+                }else{
+                    tree.setHead(this);
+                    next.prev=null;
+                    next=null;
+                }
+                //父节点中重复的数据也删除掉
+                parent.entries.remove(parent.children.indexOf(this));
+
+                //check parent
+
+                if(isValid(parent.entries.size(),tree.getOrder())){
+                    return result;
+                }
+                parent.afterRemove(tree);
+                return result;
+            }
+        }
+        if (key.compareTo(entries.get(0).getKey()) < 0) {
+            return children.get(0).remove(key, tree);
+            //如果key大于节点最右边的key，沿最后一个子节点继续搜索
+        } else if (key.compareTo(entries.get(entries.size() - 1).getKey()) >= 0) {
+            return children.get(children.size() - 1).remove(key, tree);
+            //否则沿比key大的前一个子节点继续搜索
+        } else {
+            int low = 0, high = entries.size() - 1, mid = 0;
+            int comp;
+            while (low <= high) {
+                mid = (low + high) / 2;
+                comp = entries.get(mid).getKey().compareTo(key);
+                if (comp == 0) {
+                    return children.get(mid + 1).remove(key, tree);
+                } else if (comp < 0) {
+                    low = mid + 1;
+                } else {
+                    high = mid - 1;
+                }
+            }
+            return children.get(low).remove(key, tree);
+        }
+    }
+    /**
+     *
+     *
+     * 非叶子节点进行调整
+     */
+
+    private void afterRemove(BPlusTree<K,V> tree) {
+        /**
+         * 如果当前节点的关键字是合法的,直接返回
+         */
+        if(isValid(entries.size(),tree.getOrder())){
+            return ;
+        }
+    }
+    //判断当前节点是否可以直接删除
+    private boolean isValid(int order){
+        //B 树中的数据项至少要有 (Math.ceil(order/2)-1)才合法(根节点除外)
+        int needMinSize= (int) (Math.ceil(order/2)-1);
+        return entries.size()>needMinSize;
+    }
+    private boolean isValid(int size,int order){
+        int needMinSize= (int) (Math.ceil(order/2)-1);
+        return size>needMinSize;
+    }
+
+
+    /**
+     * 校验这颗B+树是否合法
+     * @return
+     */
+
+
+
+    private boolean isValid=true;
+    public int minSize(int order){
+        return ((int) Math.ceil(order/2))-1;
+    }
+
+    public int maxSize(int order) {
+        return order - 1;
+    }
+
+
+    public boolean isValid(BPlusTree<K,V> tree){
+        doIsValid(tree);
+        return isValid;
+    }
+    public void doIsValid(BPlusTree<K,V> tree){
+        if(isLeaf){
+            if(isRoot){
+                for(int i=0;i<entries.size()-1;i++){
+                    int compare=((Comparable)entries.get(i).getKey()).compareTo(entries.get(i+1).getKey());
+                    if(compare>0){
+                        System.out.println("java");
+                        isValid=false;
+                    }
+                }
+            }
+            else{
+                if(entries.size()<minSize(tree.getOrder())||entries.size()>maxSize(tree.getOrder())){
+                    System.out.println("world hello");
+                    isValid=false;
+                }
+                for(int i=0;i<entries.size()-1;i++){
+                    int compare=((Comparable)entries.get(i).getKey()).compareTo(entries.get(i+1).getKey());
+                    if(compare>0){
+                        System.out.println("hello world");
+                        isValid=false;
+                    }
+                }
+            }
+        }
+        else{
+            //检查当前节点
+            if(entries.size()+1!=children.size()){
+                System.out.println("heeeeeeee");
+                isValid=false;
+            }
+            if(!isRoot){
+                if(entries.size()<minSize(tree.getOrder())||entries.size()>maxSize(tree.getOrder())){
+                    System.out.println("heeee");
+                    isValid= false;
+                }
+            }
+
+            if(children.size()>maxSize(tree.getOrder())+1){
+                System.out.println("hee");
+                isValid= false;
+            }
+            for(int i=0;i<entries.size()-1;i++){
+                int compare=((Comparable)entries.get(i).getKey()).compareTo(entries.get(i+1).getKey());
+                if(compare>0){
+                    System.out.println("he");
+                    isValid= false;
+                }
+            }
+            for(Node<K,V> node:children){
+                if(node.parent!=this){
+                    System.out.println("h");
+                    isValid= false;
+                }
+            }
+            for(Node node:children){
+                node.doIsValid(tree);
+            }
+        }
     }
 }

@@ -7,15 +7,9 @@ import java.util.Random;
 public class BPlusTreeTest {
     // 测试
     public static void main(String[] args) {
-
-        int size = 10000000;
-        int order = 100;
-//        testOrderInsert(size, order);
-        testOrderSearch(size, order);
-//
-//        testRandomRemove(size, order);
-//
-//        testOrderRemove(size, order);
+        int size = 6;
+        int order = 4;
+        testOrderRemove(size, order);
     }
 
     private static void testOrderRemove(int size, int order) {
@@ -93,11 +87,9 @@ public class BPlusTreeTest {
                 break;
             }
         }
-
         long end= System.currentTimeMillis();
         System.out.println(end-current);
     }
-
     private static void testRandomSearch(int size, int order) {
         BPlusTree<Integer, Integer> tree = new BPlusTree<Integer, Integer>(order);
         System.out.println("\nTest random search " + size + " datas, of order:"
@@ -126,7 +118,6 @@ public class BPlusTreeTest {
         long duration = System.currentTimeMillis() - current;
         System.out.println("time elpsed for duration: " + duration);
     }
-
     private static void testRandomInsert(int size, int order) {
         BPlusTree<Integer, Integer> tree = new BPlusTree<Integer, Integer>(order);
         System.out.println("\nTest random insert " + size + " datas, of order:"
@@ -144,7 +135,6 @@ public class BPlusTreeTest {
         tree.printBPlusTree();
         System.out.println(tree.getHeight());
     }
-
     private static void testOrderInsert(int size, int order) {
         BPlusTree<Integer, Integer> tree = new BPlusTree<Integer, Integer>(order);
         long current = System.currentTimeMillis();

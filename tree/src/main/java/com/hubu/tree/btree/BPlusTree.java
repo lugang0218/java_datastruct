@@ -5,7 +5,6 @@ public class BPlusTree<K extends Comparable<K>,V>{
     private Comparator<K> comparator;
     private int order;
     private Node<K,V> root;
-
     private int size;
     /**
      * 指向叶子节点的头节点，方便查询节点使用
@@ -180,6 +179,15 @@ public class BPlusTree<K extends Comparable<K>,V>{
     }
 
     public void setSize(int size) {
-        this.size = size;
+        this.size=size;
+    }
+
+    public V remove(K key) {
+        return root.remove(key,this);
+    }
+
+
+    public boolean isValid(){
+        return root.isValid(this);
     }
 }

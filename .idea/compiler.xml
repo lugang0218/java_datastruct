@@ -7,15 +7,16 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="stack" />
-        <module name="xshell" />
         <module name="set" />
-        <module name="file" />
         <module name="tree" />
         <module name="concurrent" />
         <module name="grap" />
         <module name="list" />
-        <module name="heap" />
         <module name="trie" />
+        <module name="rbtree" />
+        <module name="xshell" />
+        <module name="file" />
+        <module name="heap" />
         <module name="map" />
         <module name="queue" />
       </profile>
@@ -34,6 +35,7 @@
       <module name="map" target="8" />
       <module name="nio" target="8" />
       <module name="queue" target="8" />
+      <module name="rbtree" target="8" />
       <module name="reflection" target="8" />
       <module name="set" target="8" />
       <module name="sort" target="8" />
