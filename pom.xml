@@ -18,6 +18,7 @@
         <module>concurrent</module>
         <module>grap</module>
         <module>xshell</module>
+        <module>rbtree</module>
     </modules>
 
     <dependencies>
