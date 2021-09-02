@@ -634,15 +634,10 @@ public class Node<K extends Comparable<K>, V> {
         int needMinSize= (int) (Math.ceil(order/2)-1);
         return size>needMinSize;
     }
-
-
     /**
      * 校验这颗B+树是否合法
      * @return
      */
-
-
-
     private boolean isValid=true;
     public int minSize(int order){
         return ((int) Math.ceil(order/2))-1;
@@ -712,6 +707,11 @@ public class Node<K extends Comparable<K>, V> {
                     isValid= false;
                 }
             }
+            /**
+             *
+             *
+             * 递归检查所有的子节点
+             */
             for(Node node:children){
                 node.doIsValid(tree);
             }

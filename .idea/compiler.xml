@@ -14,7 +14,6 @@
         <module name="list" />
         <module name="trie" />
         <module name="rbtree" />
-        <module name="xshell" />
         <module name="file" />
         <module name="heap" />
         <module name="map" />
