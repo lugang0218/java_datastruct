@@ -1,5 +1,4 @@
 import java.util.Comparator;
-
 public class SearchUtil<T> {
     private  Comparator<T> comparator;
     public SearchUtil(Comparator<T> comparator){
@@ -13,8 +12,6 @@ public class SearchUtil<T> {
      *
      * 二分查找
      */
-
-
     public int binarySearch(T value,T [] array) {
         if (value == null || array == null || array.length == 0) {
             return -1;
