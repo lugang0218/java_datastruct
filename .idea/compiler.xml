@@ -8,6 +8,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="stack" />
         <module name="set" />
+        <module name="shearch" />
         <module name="tree" />
         <module name="concurrent" />
         <module name="grap" />
@@ -37,6 +38,7 @@
       <module name="rbtree" target="8" />
       <module name="reflection" target="8" />
       <module name="set" target="8" />
+      <module name="shearch" target="8" />
       <module name="sort" target="8" />
       <module name="stack" target="8" />
       <module name="thread" target="8" />

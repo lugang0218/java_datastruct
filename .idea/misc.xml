@@ -17,6 +17,7 @@
         <option value="$PROJECT_DIR$/file/pom.xml" />
         <option value="$PROJECT_DIR$/trie/pom.xml" />
         <option value="$PROJECT_DIR$/rbtree/pom.xml" />
+        <option value="$PROJECT_DIR$/shearch/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">
