@@ -12,7 +12,6 @@
         <module name="concurrent" />
         <module name="grap" />
         <module name="list" />
-        <module name="trie" />
         <module name="search" />
         <module name="file" />
         <module name="heap" />

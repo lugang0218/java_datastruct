@@ -4,8 +4,6 @@ public class SearchUtil<T> {
     public SearchUtil(Comparator<T> comparator){
         this.comparator=comparator;
     }
-
-
     /**
      *
      *
