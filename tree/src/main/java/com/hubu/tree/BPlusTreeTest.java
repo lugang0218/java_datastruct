@@ -14,9 +14,6 @@ public class BPlusTreeTest {
 
     private static void testOrderRemove(int size, int order) {
         BPlusTree<Integer, Integer> tree = new BPlusTree<Integer, Integer>(order);
-        System.out.println("\nTest order remove " + size + " datas, of order:"
-                + order);
-        System.out.println("Begin order insert...");
         for (int i = 0; i < size; i++) {
             tree.insertOrUpdate(i, i);
         }

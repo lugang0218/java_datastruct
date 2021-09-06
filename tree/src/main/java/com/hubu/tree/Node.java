@@ -257,7 +257,6 @@ public class Node<K extends Comparable<K>, V> {
      * 插入节点后中间节点的更新
      */
     protected void updateInsert(BPlusTree<K, V> tree) {
-
         //如果子节点数超出阶数，则需要分裂该节点    
         if (children.size() > tree.getOrder()) {
             //分裂成左右两个节点 

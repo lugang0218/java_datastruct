@@ -85,19 +85,9 @@ public class BPlusTree <K,V> {
             int compareResult = 0;
             try{
                 if(node.entries==null){
-                    System.out.println("hahaha");
-                    System.out.println(node.parent);
-                    System.out.println(node.children);
-                    System.out.println("world");
-                    System.out.println(key);
                 }
                 compareResult = compare(key, node.entries.get(0).getKey());
             }catch (Exception e){
-                System.out.println(node.isLeaf);
-                System.out.println(node.isRoot);
-
-                System.out.println(node);
-                System.out.println(node.entries);
                 e.printStackTrace();
             }
 
@@ -280,7 +270,6 @@ public class BPlusTree <K,V> {
         else{
             int low=0;
             int high=node.entries.size()-1;
-
             int compare=0;
             compare=compare(key,node.entries.get(0).getKey());
             if(compare<0){
@@ -371,21 +360,21 @@ public class BPlusTree <K,V> {
                     int compare=compare(node.entries.get(i).getKey(),node.entries.get(i+1).getKey());
                     if(compare>0){
                         isValid=false;
-                        System.out.println("hello");
+
                     }
                 }
             }
             else{
                 if(node.entries.size()<minSize(order)||node.entries.size()>maxSize(order)){
                     isValid=false;
-                    System.out.println("world");
+
                 }
                 for(int i=0;i<node.entries.size()-1;i++){
                     int compare=compare(node.entries.get(i).getKey(),node.entries.get(i+1).getKey());
                     if(compare>0){
 
                         isValid=false;
-                        System.out.println("hello world");
+
                     }
                 }
             }
@@ -394,7 +383,7 @@ public class BPlusTree <K,V> {
             //检查当前节点
             if(node.entries.size()+1!=node.children.size()){
                 isValid=false;
-                System.out.println("world hello");
+
             }
             if(!node.isRoot){
                 if(node.entries.size()<minSize(order)||node.entries.size()>maxSize(order)){
@@ -403,13 +392,13 @@ public class BPlusTree <K,V> {
             }
 
             if(node.children.size()>maxSize(order+1)){
-                System.out.println("hee");
+
                 isValid= false;
             }
             for(int i=0;i<node.entries.size()-1;i++){
                 int compare=compare(node.entries.get(i).getKey(),node.entries.get(i+1).getKey());
                 if(compare>0){
-                    System.out.println("he");
+
                     isValid= false;
                 }
             }
@@ -460,13 +449,7 @@ public class BPlusTree <K,V> {
         if(!contains(key)){
             return null;
         }
-        /**
-         * 如果当前节点是叶子节点
-         */
         if(node.isLeaf) {
-            /**
-             * 如果是叶子节点并且还是根节点,或者当前节点可以自己删除
-             */
             if(node.isRoot||canRemoveBySelf(node)){
                 V result=remove0(node,key);
                 return result;
@@ -494,7 +477,7 @@ public class BPlusTree <K,V> {
                 node.parent.entries.set(index,node.next.entries.get(0));
                 return result;
             }
-            if(canMergeWithNode(node,node.prev)){
+            if(node.prev!=null&&canMergeWithNode(node,node.prev)){
                 //核心就是将当前节点的前一个节点删除掉
                 for(int i=0;i<node.entries.size();i++){
                     node.prev.entries.add(node.entries.get(i));
@@ -520,11 +503,10 @@ public class BPlusTree <K,V> {
                 afterRemove(node.parent);
                 return result;
             }
-            if(canMergeWithNode(node,node.next)){
-                for(int i=0;i<node.entries.size();i++){
-                    node.next.entries.add(node.entries.get(i));
+            if(node.next!=null&&canMergeWithNode(node,node.next)){
+                for(int i=0;i<node.next.entries.size();i++){
+                    node.entries.add(node.next.entries.get(i));
                 }
-                node.entries=node.prev.entries;
                 node.next.entries=null;
                 node.next.parent=null;
                 node.parent.children.remove(node.next);
@@ -540,7 +522,7 @@ public class BPlusTree <K,V> {
                     node.next = null;
                 }
                 V result=remove0(node,key);
-                node.parent.entries.remove(node.parent.children.indexOf(this));
+                node.parent.entries.remove(node.parent.children.indexOf(node));
                 afterRemove(node.parent);
                 return result;
             }
@@ -572,22 +554,115 @@ public class BPlusTree <K,V> {
         }
         return remove(node.children.get(low),key);
     }
-
-
-
-
-
-
-
+    private int minChildSize(int order){
+        return (int)Math.ceil(order/2);
+    }
     private void afterRemove(Node<K,V> node){
-
-
-
-        //如果孩子节点的数量小于minSize
-        if(node.children.size()<minSize(order)){
-
+        //递归向上处理父节点的条件 孩子节点的数量小于阶/2向上取整
+        if(node==null){
+            return ;
         }
+        if(node.children.size()<minChildSize(order)||node.children.size()<2){
+            /**
+             * 如果是根节点
+             */
+            if(node.isRoot){
+                if(node.children.size()>=2){
+                    return ;
+                }
+                Node<K,V> newRoot=node.children.get(0);
+                newRoot.parent=null;
+                newRoot.isRoot=true;
+                node.children=null;
+                node.parent=null;
+                node.entries=null;
+                root=newRoot;
+            }
+            else{
+                //计算node节点的左后节点
+                int currentIndex= node.parent.children.indexOf(node);
+                int prevIndex=currentIndex-1;
+                int nextIndex=currentIndex+1;
+                Node<K,V> prev=null;
+                Node<K,V> next=null;
+                if(prevIndex>=0){
+                    prev=node.parent.children.get(prevIndex);
+                }
+                if(nextIndex<node.parent.children.size()){
+                    next=node.parent.children.get(nextIndex);
+                }
+                if(prev!=null&&prev.parent==node.parent&&canRemoveByNode(node)){
+                    int index = prev.children.size() - 1;
+                    Node<K, V> borrow = prev.children.remove(index);
+                    borrow.parent = node;
+                    node.children.add(0, borrow);
+                    int parentIndex =node.parent.children.indexOf(prev);
+                    node.entries.add(0, node.parent.entries.get(parentIndex));
+                    node.parent.entries.set(parentIndex, prev.entries.remove(index - 1));
+                    return;
+                }
+                else if (next != null&&next.parent==node.parent&&canRemoveByNode(node)) {
+                    //后叶子节点首位添加到末尾
+                    Node<K, V> borrow = next.children.get(0);
+                    next.children.remove(0);
+                    borrow.parent = node;
+                    node.children.add(borrow);
+                    int preIndex = node.parent.children.indexOf(this);
+                    node.entries.add(node.parent.entries.get(preIndex));
+                    node.parent.entries.set(preIndex, next.entries.remove(0));
+                    return;
+                }
+                else if (prev != null
+                        &&canMergeWithNode(node,prev)) {
+                    for (int i = 0; i < node.children.size(); i++) {
+                        prev.children.add(node.children.get(i));
+                    }
+                    for (int i = 0; i < prev.children.size(); i++) {
+                        prev.children.get(i).parent = node;
+                    }
+                    int indexPre = node.parent.children.indexOf(prev);
+                    prev.entries.add(node.parent.entries.get(indexPre));
+                    for (int i = 0; i < node.entries.size(); i++) {
+                        prev.entries.add(node.entries.get(i));
+                    }
+                    node.children = prev.children;
+                    node.entries = prev.entries;
 
+                    //更新父节点的关键字列表
+                    node.parent.children.remove(prev);
+                    prev.parent = null;
+                    prev.children = null;
+                    prev.entries = null;
+                    node.parent.entries.remove(node.parent.children.indexOf(node));
+                    afterRemove(node.parent);
+                    return;
+                }
+
+                // 同后面节点合并
+                else if (next != null&&next.parent==node.parent) {
+                    for (int i = 0; i < next.children.size(); i++) {
+                        Node<K, V> child = next.children.get(i);
+                        node.children.add(child);
+                        child.parent = node;
+                    }
+                    int index = node.parent.children.indexOf(node);
+                    node.entries.add(node.parent.entries.get(index));
+                    for (int i = 0; i < next.entries.size(); i++) {
+                        node.entries.add(next.entries.get(i));
+                    }
+                    node.parent.children.remove(next);
+                    next.parent = null;
+                    next.children = null;
+                    next.entries = null;
+                    node.parent.entries.remove(index);
+                    afterRemove(node.parent);
+                    return;
+                }
+                else if(prev==null&&next==null){
+                    System.out.println("prev=null and next=null");
+                }
+            }
+        }
     }
 
 
@@ -603,6 +678,11 @@ public class BPlusTree <K,V> {
         /**
          * 合并后的节点数量可以等于order，合并之后还会删除一个
          */
+
+        if(node==null){
+
+        }
+
         if(node.parent==current.parent&&current.entries.size()+node.entries.size()<=order){
             return true;
         }
@@ -654,17 +734,6 @@ public class BPlusTree <K,V> {
         }
         return null;
     }
-
-
-
-
-
-
-
-
-
-
-
     static class Node<K,V>{
         boolean isRoot;
         boolean isLeaf;
