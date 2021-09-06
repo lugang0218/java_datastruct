@@ -17,8 +17,7 @@
         <module>stack</module>
         <module>concurrent</module>
         <module>grap</module>
-        <module>shearch</module>
-        <module>rbtree</module>
+        <module>search</module>
     </modules>
 
     <dependencies>

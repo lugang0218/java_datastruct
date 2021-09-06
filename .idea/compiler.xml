@@ -8,13 +8,12 @@
         <outputRelativeToContentRoot value="true" />
         <module name="stack" />
         <module name="set" />
-        <module name="shearch" />
         <module name="tree" />
         <module name="concurrent" />
         <module name="grap" />
         <module name="list" />
         <module name="trie" />
-        <module name="rbtree" />
+        <module name="search" />
         <module name="file" />
         <module name="heap" />
         <module name="map" />
@@ -37,8 +36,8 @@
       <module name="queue" target="8" />
       <module name="rbtree" target="8" />
       <module name="reflection" target="8" />
+      <module name="search" target="8" />
       <module name="set" target="8" />
-      <module name="shearch" target="8" />
       <module name="sort" target="8" />
       <module name="stack" target="8" />
       <module name="thread" target="8" />
