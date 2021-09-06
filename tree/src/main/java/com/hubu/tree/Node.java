@@ -531,6 +531,7 @@ public class Node<K extends Comparable<K>, V> {
                 }
                 //更新父节点的关键字列表
                 parent.entries.remove(parent.children.indexOf(this));
+
                 if ((!parent.isRoot && (parent.children.size() >= tree.getOrder() / 2
                         && parent.children.size() >= 2))
                         || parent.isRoot && parent.children.size() >= 2) {

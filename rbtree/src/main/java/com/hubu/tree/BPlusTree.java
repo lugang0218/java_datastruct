@@ -472,49 +472,141 @@ public class BPlusTree <K,V> {
                 return result;
             }
             //如果能够从前面节点借一个过来
-            else if(node.prev!=null&&node.prev.parent==node.parent&&canRemoveByNode(node.prev)){
+            if(node.prev!=null&&node.prev.parent==node.parent&&canRemoveByNode(node.prev)) {
                 //删除node前驱节点中的最后一个值
-
                 Map.Entry<K, V> prevEntry = node.prev.entries.remove(node.prev.entries.size() - 1);
                 //获取当前节点在父亲子节点中的位置
-                V result=remove0(node,key);
-                int parentIndex=node.parent.children.indexOf(node);
-                node.parent.entries.add(parentIndex,prevEntry);
+                V result = remove0(node, key);
+                int parentIndex = node.parent.children.indexOf(node.prev);
+                node.parent.entries.set(parentIndex,prevEntry);
                 //将前驱节点移除的元素添加到当前节点的第0个位置
-                node.entries.add(0,prevEntry);
+                node.entries.add(0, prevEntry);
                 return result;
             }
-            return null;
+            if(node.next!=null&&node.next.parent==node.parent&&canRemoveByNode(node.next)){
+                Map.Entry<K, V> nextEntry= node.next.entries.remove(0);
+                V result=remove0(node,key);
+                node.entries.add(nextEntry);
+                int index = node.parent.children.indexOf(node);
+                /**
+                 * 删除当前key在父节点中的位置
+                 */
+                node.parent.entries.set(index,node.next.entries.get(0));
+                return result;
+            }
+            if(canMergeWithNode(node,node.prev)){
+                //核心就是将当前节点的前一个节点删除掉
+                for(int i=0;i<node.entries.size();i++){
+                    node.prev.entries.add(node.entries.get(i));
+                }
+                node.entries=node.prev.entries;
+                node.prev.entries=null;
+                node.prev.parent=null;
+                node.parent.children.remove(node.prev);
+                //处理连接关系
+                if(node.prev.prev!=null){
+                    Node<K,V> temp=node.prev;
+                    node.prev.prev.next=node;
+                    node.prev=node.prev.prev;
+                    temp.prev=null;
+                    temp.next=null;
+                }else{
+                    head=node;
+                    node.prev.next=null;
+                    node.prev=null;
+                }
+                V result=remove0(node,key);
+                node.parent.entries.remove(node.parent.children.indexOf(node));
+                afterRemove(node.parent);
+                return result;
+            }
+            if(canMergeWithNode(node,node.next)){
+                for(int i=0;i<node.entries.size();i++){
+                    node.next.entries.add(node.entries.get(i));
+                }
+                node.entries=node.prev.entries;
+                node.next.entries=null;
+                node.next.parent=null;
+                node.parent.children.remove(node.next);
+                //处理连接关系
+                if (node.next.next != null) {
+                    Node<K, V> temp = node.next;
+                    node.next.next.prev=node;
+                    node.next=node.next.next;
+                    temp.prev = null;
+                    temp.next = null;
+                } else {
+                    node.next.prev = null;
+                    node.next = null;
+                }
+                V result=remove0(node,key);
+                node.parent.entries.remove(node.parent.children.indexOf(this));
+                afterRemove(node.parent);
+                return result;
+            }
         }
-        else{
-            int compare=0;
-            compare=compare(key,node.entries.get(0).getKey());
-            if(compare<0){
-                return remove(node.children.get(0),key);
-            }
-            compare=compare(key,node.entries.get(node.entries.size()-1).getKey());
+        int compare=0;
+        compare=compare(key,node.entries.get(0).getKey());
+        if(compare<0){
+            return remove(node.children.get(0),key);
+        }
+        compare=compare(key,node.entries.get(node.entries.size()-1).getKey());
+        if(compare>0){
+            return remove(node.children.get(node.children.size()-1),key);
+        }
+        int low=0;
+        int mid=0;
+        int high=node.entries.size()-1;
+        while(low<=high){
+            mid=(low+high)/2;
+            compare=compare(key,node.entries.get(mid).getKey());
             if(compare>0){
-                return remove(node.children.get(node.children.size()-1),key);
+                low=mid+1;
             }
-            int low=0;
-            int mid=0;
-            int high=node.entries.size()-1;
-            while(low<=high){
-                mid=(low+high)/2;
-                compare=compare(key,node.entries.get(mid).getKey());
-                if(compare>0){
-                    low=mid+1;
-                }
-                else if(compare==0){
-                    return remove(node.children.get(mid+1),key);
-                }
-                else{
-                    high=mid-1;
-                }
+            else if(compare==0){
+                return remove(node.children.get(mid+1),key);
             }
-            return remove(node.children.get(low),key);
+            else{
+                high=mid-1;
+            }
+        }
+        return remove(node.children.get(low),key);
+    }
+
+
+
+
+
+
+
+    private void afterRemove(Node<K,V> node){
+
+
+
+        //如果孩子节点的数量小于minSize
+        if(node.children.size()<minSize(order)){
+
         }
 
+    }
+
+
+    /**
+     * 判断当前节点是否能和node节点合并
+     * @param current
+     * @param node
+     * @return
+     */
+    private boolean canMergeWithNode(Node<K,V> current,Node<K,V> node){
+
+
+        /**
+         * 合并后的节点数量可以等于order，合并之后还会删除一个
+         */
+        if(node.parent==current.parent&&current.entries.size()+node.entries.size()<=order){
+            return true;
+        }
+        return false;
     }
 
     private boolean canRemoveByNode(Node<K, V> node) {
