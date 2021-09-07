@@ -10,5 +10,8 @@ public class BPlusTreeTest {
                 System.out.println(i);
             }
         }
+        for(int i=1;i<=1000000;i++){
+            System.out.println(tree.get(1));
+        }
     }
 }
