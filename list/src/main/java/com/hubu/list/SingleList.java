@@ -147,12 +147,13 @@ public class SingleList <T> extends AbstractList<T> implements List<T>{
         }
     }
     public void show(){
-        if(printer==null){
-            return;
-        }
+//        if(printer==null){
+//            return;
+//        }
         Node<T> current=head;
         while(current!=null){
-            printer.print(current.value);
+
+            System.out.println(current.value);
             current=current.next;
         }
     }
@@ -183,9 +184,6 @@ public class SingleList <T> extends AbstractList<T> implements List<T>{
             return value;
         }
     }
-
-
-
     public void hello(){
         head=reverse(head);
         show();
@@ -204,6 +202,20 @@ public class SingleList <T> extends AbstractList<T> implements List<T>{
             current=next;
         }
         return prev;
+    }
+    public void print(){
+        print(head);
+    }
+    public void print(Node<T> node){
+        if(node==null){
+            return ;
+        }
+        if(node.next==null){
+            System.out.println(node.value);
+            return ;
+        }
+        print(node.next);
+        System.out.println(node.value);
     }
 }
 

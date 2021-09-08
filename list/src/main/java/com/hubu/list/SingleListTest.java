@@ -2,11 +2,19 @@ package com.hubu.list;
 import java.io.*;
 public class SingleListTest {
     public static void main(String[] args) {
-        String filePath="d:\\data2\\list.dat";
+//        String filePath="d:\\data2\\list.dat";
+//        SingleList<Integer> list=new SingleList<>(null);
+//        for(int i=1;i<=10000;i++){
+//            list.add(i);
+//        }
+
         SingleList<Integer> list=new SingleList<>(null);
-        for(int i=1;i<=10000;i++){
-            list.add(i);
-        }
+        list.add(12);
+        list.add(13);
+        list.add(14);
+        list.add(15);
+        list.print();
+
     }
     public static void readList(String filePath){
         ObjectInputStream objectInputStream=null;
