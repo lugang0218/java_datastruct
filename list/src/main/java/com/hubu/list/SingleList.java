@@ -217,6 +217,27 @@ public class SingleList <T> extends AbstractList<T> implements List<T>{
         print(node.next);
         System.out.println(node.value);
     }
+    public Node reverse2(Node head){
+        if(head==null||head.next==null){
+            return head;
+        }
+        Node next=reverse(head.next);
+
+
+        //返回到这儿
+
+        head.next.next=head;
+        head.next=null;
+        return head;
+    }
+
+
+    /**
+     * 反转前n个节点
+     */
+    public void reverseBeforeN(Node head,int n){
+
+    }
 }
 
 
