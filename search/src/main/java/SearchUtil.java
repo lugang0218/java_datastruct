@@ -6,8 +6,6 @@ public class SearchUtil<T> {
     }
     /**
      *
-     *
-     *
      * 二分查找
      */
     public int binarySearch(T value,T [] array) {
@@ -31,30 +29,19 @@ public class SearchUtil<T> {
         }
         return -1;
     }
-
-
-
     private void check(T value,T array[]){
         if(value==null||array==null||array.length==0){
             throw new RuntimeException("参数错误");
         }
     }
-
     public void search(T value,T array[]){
 
     }
-
-
-
     public static void main(String[] args) {
         SearchUtil<Integer> searchUtil=new SearchUtil<Integer>((value1,value2)->{
-
-
-
             return value1-value2;
         });
 
         int i = searchUtil.binarySearch(6, new Integer[]{1, 2, 3, 4, 5, 6, 7, 8, 9});
-
     }
 }

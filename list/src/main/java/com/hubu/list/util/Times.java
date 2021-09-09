@@ -1,5 +1,4 @@
 package com.hubu.list.util;
-
 public class Times {
 	public interface Task {
 		void execute();
@@ -19,7 +18,6 @@ public class Times {
 		
 		printDuration(begin, end);
 	}
-	
 	public static Object test(String title, ReturnTask task) {
 		if (task == null) return null;
 		printTitle(title);
@@ -31,12 +29,10 @@ public class Times {
 		printDuration(begin, end);
 		return result;
 	}
-	
 	private static void printTitle(String title) {
 		title = (title == null) ? "" : ("【" + title + "】");
 		System.out.println(title);
 	}
-	
 	private static void printDuration(long begin, long end) {
 		double duration = end - begin;
 		System.out.println("耗时：" + duration / 1000.0 + "s(" + duration + "ms)");
