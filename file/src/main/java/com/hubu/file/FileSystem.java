@@ -1,7 +1,9 @@
 package com.hubu.file;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 public class FileSystem {
     private static int count=0;
     public static void dfsFile(String filePath){
@@ -52,6 +54,32 @@ public class FileSystem {
         }
         return fileNames;
     }
+     public static  void bfsFile(File file){
+        if(!file.exists()){
+            throw new RuntimeException("file不存在");
+        }
+        Queue<File> fileQueue=new LinkedList<>();
+        fileQueue.offer(file);
+        while(!fileQueue.isEmpty()){
+            File itemFile = fileQueue.poll();
+            if(itemFile.isFile()){
+                System.out.println(itemFile.getName());
+            }
+            else if(itemFile.isDirectory()){
+                File[] files = itemFile.listFiles();
+                if(files!=null&&files.length>0){
+                    for(File item:files){
+                        if(item.isFile()){
+                            System.out.println(item.getName());
+                        }
+                        else if(item.isDirectory()){
+                            fileQueue.offer(item);
+                        }
+                    }
+                }
+            }
+        }
+    }
     public static void dfsFile(File file){
         File[] files = file.listFiles();
         for(File item:files){
@@ -65,6 +93,7 @@ public class FileSystem {
         }
     }
     public static void main(String[] args) {
-        listAllFileFile("D:\\data2");
+        String filePath="d:\\data2";
+        bfsFile(new File(filePath));
     }
 }

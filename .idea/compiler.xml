@@ -7,13 +7,14 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="stack" />
+        <module name="search" />
         <module name="set" />
+        <module name="file" />
         <module name="tree" />
         <module name="concurrent" />
         <module name="grap" />
+        <module name="file-server" />
         <module name="list" />
-        <module name="search" />
-        <module name="file" />
         <module name="heap" />
         <module name="map" />
         <module name="queue" />
@@ -26,6 +27,7 @@
       <module name="database" target="1.5" />
       <module name="datastruct" target="1.5" />
       <module name="file" target="8" />
+      <module name="file-server" target="8" />
       <module name="grap" target="8" />
       <module name="heap" target="8" />
       <module name="leetcode" target="8" />
