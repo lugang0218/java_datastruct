@@ -7,14 +7,15 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="stack" />
-        <module name="search" />
         <module name="set" />
-        <module name="file" />
         <module name="tree" />
         <module name="concurrent" />
         <module name="grap" />
-        <module name="file-server" />
         <module name="list" />
+        <module name="search" />
+        <module name="file" />
+        <module name="chat" />
+        <module name="file-server" />
         <module name="heap" />
         <module name="map" />
         <module name="queue" />
@@ -23,6 +24,7 @@
     <bytecodeTargetLevel>
       <module name="algorithm" target="8" />
       <module name="bfs" target="8" />
+      <module name="chat" target="8" />
       <module name="concurrent" target="8" />
       <module name="database" target="1.5" />
       <module name="datastruct" target="1.5" />

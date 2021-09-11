@@ -17,6 +17,7 @@
         <option value="$PROJECT_DIR$/file/pom.xml" />
         <option value="$PROJECT_DIR$/shearch/pom.xml" />
         <option value="$PROJECT_DIR$/file-server/pom.xml" />
+        <option value="$PROJECT_DIR$/chat/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">
