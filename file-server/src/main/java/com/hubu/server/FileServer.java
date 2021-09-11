@@ -3,16 +3,13 @@ import com.hubu.server.core.InStreamWrapper;
 import com.hubu.server.core.OutStreamWrapper;
 import com.hubu.server.core.SocketStreamWrapper;
 import com.hubu.server.core.WorkThread;
-import com.hubu.server.core.handler.CommandHandler;
-import com.hubu.server.core.handler.MkdirCommandHandler;
+
 import java.io.*;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 public class FileServer {
     private boolean isStart=false;
     private int connectionSize;
@@ -26,11 +23,6 @@ public class FileServer {
         this.port=port;
         this.localhost=localhost;
     }
-    /**
-     * 文件服务器启动程序
-     *
-     *
-     */
     public SocketStreamWrapper initSocketStreamWrapper(Socket socket){
         if(socket!=null) {
             SocketStreamWrapper socketStreamWrapper=new SocketStreamWrapper();
@@ -59,7 +51,6 @@ public class FileServer {
         }
         return null;
     }
-
     public void start() {
         init();
         if(!isStart){

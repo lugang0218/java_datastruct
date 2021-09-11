@@ -10,7 +10,6 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.util.Arrays;
 import java.util.List;
-
 public class FileClient3 {
     public static void main(String[] args) {
         Socket socket=new Socket();

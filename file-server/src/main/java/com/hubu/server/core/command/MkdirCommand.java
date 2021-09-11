@@ -4,9 +4,7 @@ import java.util.List;
 
 public class MkdirCommand implements AbstractCommand{
     private String type;
-
     private List<Param<String,String>> params;
-
     public MkdirCommand(String type,List<Param<String,String>> params){
         this.type=type;
         this.params=params;
