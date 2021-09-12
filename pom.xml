@@ -19,6 +19,8 @@
         <module>grap</module>
         <module>search</module>
         <module>file</module>
+        <module>nio</module>
+        <module>thread-pattern</module>
     </modules>
 
     <dependencies>

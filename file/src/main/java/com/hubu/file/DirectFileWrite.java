@@ -10,8 +10,6 @@ public class DirectFileWrite {
      * 写入的位置
      */
     private int position;
-
-
     private String filePath;
     public DirectFileWrite(String filePath,int position){
         this.filePath=filePath;
