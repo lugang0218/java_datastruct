@@ -14,7 +14,6 @@
         <module name="list" />
         <module name="search" />
         <module name="file" />
-        <module name="chat" />
         <module name="file-server" />
         <module name="heap" />
         <module name="map" />
