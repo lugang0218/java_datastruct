@@ -1,5 +1,9 @@
 package com.hubu.file;
 import java.io.File;
+import java.io.IOException;
+import java.io.RandomAccessFile;
+import java.nio.MappedByteBuffer;
+import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -54,7 +58,8 @@ public class FileSystem {
         }
         return fileNames;
     }
-     public static  void bfsFile(File file){
+
+    public static  void bfsFile(File file){
         if(!file.exists()){
             throw new RuntimeException("file不存在");
         }
@@ -93,7 +98,51 @@ public class FileSystem {
         }
     }
     public static void main(String[] args) {
-        String filePath="d:\\data2";
-        bfsFile(new File(filePath));
+        String filePath="d:\\data2\\hello.txt";
+        long index = fileWrite(filePath, "hello world", 0);
+        System.out.println("index="+index);
     }
+    /**
+     *
+     * @param filePath
+     * @param content
+     * @param index
+     * @return
+     */
+    public static long fileWrite(String filePath, String content, int index) {
+        File file = new File(filePath);
+        RandomAccessFile randomAccessTargetFile;
+        MappedByteBuffer map;
+        try {
+            randomAccessTargetFile = new RandomAccessFile(file, "rw");
+            FileChannel targetFileChannel = randomAccessTargetFile.getChannel();
+            map = targetFileChannel.map(FileChannel.MapMode.READ_WRITE, 0, (long) 1024 * 1024 * 1024);
+            map.position(index);
+            map.put(content.getBytes());
+            return map.position();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+        }
+        return 0L;
+    }
+
+    public static String fileRead(String filePath, long index) {
+        File file = new File(filePath);
+        RandomAccessFile randomAccessTargetFile;
+        MappedByteBuffer map;
+        try {
+            randomAccessTargetFile = new RandomAccessFile(file, "rw");
+            FileChannel targetFileChannel = randomAccessTargetFile.getChannel();
+            map = targetFileChannel.map(FileChannel.MapMode.READ_WRITE, 0, index);
+            byte[] byteArr = new byte[10 * 1024];
+            map.get(byteArr, 0, (int) index);
+            return new String(byteArr);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+        }
+        return "";
+    }
+
 }
