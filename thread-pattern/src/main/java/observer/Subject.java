@@ -1,9 +1,6 @@
 package observer;
-
-
 import java.util.ArrayList;
 import java.util.List;
-
 /**
  *
  * 主题 状态

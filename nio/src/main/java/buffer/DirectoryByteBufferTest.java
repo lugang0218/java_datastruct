@@ -1,4 +1,5 @@
-import sun.nio.ch.DirectBuffer;
+package buffer;
+
 import java.nio.ByteBuffer;
 public class DirectoryByteBufferTest {
     public static void main(String[] args) {

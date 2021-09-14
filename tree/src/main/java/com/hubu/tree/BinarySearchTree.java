@@ -1,23 +1,17 @@
 package com.hubu.tree;
 import com.hubu.tree.printer.BinaryTreeInfo;
 import java.io.Serializable;
-import java.util.Comparator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
 public class BinarySearchTree<T> extends AbstractTree<T> implements BinaryTreeInfo,Tree<T>, Serializable {
     private static final long serialVersionUID = -6849794470754667710L;
     private Comparator<T> comparator;
     private Node<T> root;
-
     public BinarySearchTree(Printer<T> printer, Comparator<T> comparator) {
         super(printer, comparator);
     }
     public BinarySearchTree(Comparator<T> comparator) {
         super(null, comparator);
     }
-
-
     public BinarySearchTree(){
         super(null);
     }
@@ -44,13 +38,29 @@ public class BinarySearchTree<T> extends AbstractTree<T> implements BinaryTreeIn
         else if(compare(value,node.value)>0){
             node.right=add(node.right,value);
         }
-
         else if(compare(value,node.value)<0){
             node.left=add(node.left,value);
         }
         return node;
     }
-
+    public void inorder() {
+        Node<T> node = root;
+        Stack<Node<T>> stack = new Stack<>();
+        while(true){
+            if(node != null){
+                stack.push(node);
+                node = node.left;
+            }
+            else{
+                if(stack.isEmpty()){
+                    return ;
+                }
+                node = stack.pop();
+                System.out.println(node.value);
+                node = node.right;
+            }
+        }
+    }
     public void build(List<T> list){
         for(T item:list){
             add(item);
