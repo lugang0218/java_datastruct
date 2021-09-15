@@ -1,19 +1,15 @@
 package reactor.server;
-
 import java.io.IOException;
 import java.nio.ByteBuffer;
-import java.nio.channels.ClosedChannelException;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.SocketChannel;
-
 public class Handler implements Runnable{
     private ByteBuffer readBuffer = ByteBuffer.allocate(1024);
     private ByteBuffer sendBuffer = ByteBuffer.allocate(2048);
     private final static int READ = 0;
     private final static int SEND = 1;
     private int status = READ;
-
     private SocketChannel socketChannel;
     private Selector selector;
     private final SelectionKey selectionKey;
@@ -51,6 +47,12 @@ public class Handler implements Runnable{
     private void read() throws IOException {
         if (selectionKey.isValid()) {
             readBuffer.clear();
+
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             int count = socketChannel.read(readBuffer); //read方法结束，意味着本次"读就绪"变为"读完毕"，标记着一次就绪事件的结束
             if (count > 0) {
                 System.out.println(String.format("收到来自 %s 的消息: %s",

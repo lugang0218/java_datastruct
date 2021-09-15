@@ -1,4 +1,4 @@
-package reactor.server;
+package reactor2.server;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.channels.SelectionKey;
@@ -6,9 +6,9 @@ import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
 import java.util.Iterator;
 import java.util.Set;
-public class Reactor implements Runnable{
+public class Reactor {
     private ServerSocketChannel serverSocketChannel;
-    private static final int PORT=8080;
+    private static final int PORT=9090;
     private Selector selector;
     private int port;
     public Reactor(){
@@ -22,40 +22,42 @@ public class Reactor implements Runnable{
             serverSocketChannel.configureBlocking(false);
             SelectionKey key= serverSocketChannel.register(selector, SelectionKey.OP_ACCEPT, null);
             serverSocketChannel.bind(new InetSocketAddress("localhost",port));
-            Acceptor acceptor=new Acceptor(selector,serverSocketChannel);
-            key.attach(acceptor);
+            //初始事件，为这个事件绑定一个处理器
+            AbstractHandler acceptorHandler=new AcceptorHandler(selector,serverSocketChannel);
+
+            /**
+             * 为当前事件添加一个附件
+             */
+            key.attach(acceptorHandler);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-    @Override
-    public void run() {
+    public void start(){
         while(!Thread.interrupted()){
+            System.out.println("服务器启动在:"+port+"端口监听");
             try {
-                System.out.println("开始等待客户端的连接");
                 selector.select();
-                System.out.println("有客户端过来连接");
                 Set<SelectionKey> events = selector.selectedKeys();
-                Iterator<SelectionKey> iterator = events.iterator();
-                while(iterator.hasNext()){
-                    SelectionKey next = iterator.next();
-                    dispatch(next);
+                Iterator<SelectionKey> eventIterator = events.iterator();
+                while(eventIterator.hasNext()){
+                    dispatcher(eventIterator.next());
                 }
+                System.out.println("清楚集合");
                 events.clear();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
     }
-    /**
-     * 线程分配器
-     * @param eventKey
-     */
-    public void dispatch(SelectionKey eventKey){
-        Runnable r = (Runnable) (eventKey.attachment());
-        if(r!=null){
-            System.out.println("来到这儿");
-            r.run();
+    public void dispatcher(SelectionKey event) {
+        if(event!=null){
+            AbstractHandler handler=(AbstractHandler) event.attachment();
+            try {
+                handler.handler();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 }

@@ -24,7 +24,7 @@ public class Handler implements Runnable {
         selectionKey = socketChannel.register(selector, 0); //将该客户端注册到selector，得到一个SelectionKey，以后的select到的就绪动作全都是由该对象进行封装
         selectionKey.attach(this); //附加处理对象，当前是Handler对象，run是对象处理业务的方法
         selectionKey.interestOps(SelectionKey.OP_WRITE); //走到这里，说明之前Connect已完成，那么接下来就是发送数据，因此这里首先将写事件标记为“感兴趣”事件
-        selector.wakeup(); //唤起select阻塞
+        selector.wakeup();
     }
 
     @Override
