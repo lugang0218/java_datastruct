@@ -17,6 +17,7 @@
         <module name="file" />
         <module name="nio" />
         <module name="file-server" />
+        <module name="page" />
         <module name="heap" />
         <module name="map" />
         <module name="queue" />
@@ -37,6 +38,7 @@
       <module name="list" target="8" />
       <module name="map" target="8" />
       <module name="nio" target="8" />
+      <module name="page" target="8" />
       <module name="queue" target="8" />
       <module name="rbtree" target="8" />
       <module name="reflection" target="8" />
