@@ -1,16 +1,14 @@
 package com.hubu.tree.bplustree;
 
-import java.util.Comparator;
-import java.util.Map;
 import java.util.*;
-public class BPlusTree <K,V>{
+public class BPlusTree<K,V>{
     private int order;
     private Comparator<K> comparator;
     private Node<K,V> root=null;
     private Node<K,V> head=null;
     private int size;
-
-    public BPlusTree(int order,Comparator<K> comparator){
+    private boolean isValid=true;
+    public BPlusTree(int order, Comparator<K> comparator){
         this.order=order;
         this.comparator=comparator;
     }
@@ -31,69 +29,23 @@ public class BPlusTree <K,V>{
         }
         return put(node,key,value);
     }
+    private boolean isFull(Node<K,V> node){
+        return node.entryList.size()== order;
+    }
     private V put(Node<K,V> node, K key, V value){
         if(node.isLeaf){
-            if(isNotFull(node)){
-                return add0(node,key,value);
-            }
             //先一个之后到满 后分裂
             V result=add0(node,key,value);
-            //左边元素个数等于总的个数除以2向下取整
-            int leftSize=order/2;
-
-            //左边元素个数等于总的个数除以2向上取整
-            int rightSize=(int)(Math.ceil((double) order/2));
-            Node<K,V> leftNode=new Node(false,true);
-            Node<K,V> rightNode=new Node<>(false,true);
-            for(int i=0;i<leftSize;i++){
-                leftNode.entryList.add(node.entryList.get(i));
+            if(!isFull(node)){
+                return result;
             }
-            for(int j=0;j<rightSize;j++){
-                rightNode.entryList.add(node.entryList.get(leftSize+j));
-            }
-            Node<K,V> newParent=node.parent;
-            int index=0;
-
-
-
-            leftNode.next=rightNode;
-            rightNode.prev=leftNode;
-
-
-            Node<K,V> temp=node;
-            if(node.prev==null){
-                head=leftNode;
-            }
-            else{
-                leftNode.prev=node.prev;
-                node.prev.next=leftNode;
-                rightNode.next=node.next;
-                if(node.next!=null) {
-                    node.next.prev = rightNode;
-                }
-            }
-            temp.prev=null;
-            temp.next=null;
-            if(newParent==null){
-                newParent = new Node<>(true, false);
-                root = newParent;
-            }
-            else{
-                index=node.parent.children.indexOf(node);
-                node.parent.children.remove(node);
-            }
-            leftNode.parent = newParent;
-            rightNode.parent = newParent;
-            newParent.children.add(index,leftNode);
-            newParent.children.add(index+1,rightNode);
-            newParent.entryList.add(rightNode.entryList.get(0));
+            split(node);
             afterPut(node.parent);
             node.children=null;
             node.entryList=null;
             node.parent=null;
             return result;
         }
-
         int compareResult=0;
         compareResult=compare(key,node.entryList.get(0).getKey());
         if(compareResult<0){
@@ -105,6 +57,7 @@ public class BPlusTree <K,V>{
         }
         int low=0;
         int mid=0;
+
         int high=node.entryList.size()-1;
         while(low<=high){
             mid=(low+high)/2;
@@ -120,6 +73,56 @@ public class BPlusTree <K,V>{
             }
         }
         return put(node.children.get(low),key,value);
+    }
+    private void split(Node<K,V> node){
+        //左边元素个数等于总的个数除以2向下取整
+        int leftSize=order/2;
+        //右边数等于总的个数除以2向上取整
+        int rightSize=(int)(Math.ceil((double) order/2));
+        Node<K,V> leftNode=new Node(false,true);
+        Node<K,V> rightNode=new Node<>(false,true);
+        for(int i=0;i<leftSize;i++){
+            leftNode.entryList.add(node.entryList.get(i));
+        }
+        for(int j=0;j<rightSize;j++){
+            rightNode.entryList.add(node.entryList.get(leftSize+j));
+        }
+        Node<K,V> newParent=node.parent;
+        int index=0;
+        leftNode.next=rightNode;
+        rightNode.prev=leftNode;
+        Node<K,V> temp=node;
+        if(node.prev==null){
+            head=leftNode;
+        }
+        else{
+            leftNode.prev=node.prev;
+            node.prev.next=leftNode;
+        }
+        //这一步必须要这么做才可以
+
+        rightNode.next=node.next;
+        if(node.next!=null) {
+            node.next.prev = rightNode;
+        }
+        temp.prev=null;
+        temp.next=null;
+        if(newParent==null){
+            newParent = new Node<>(true, false);
+            root = newParent;
+        }
+        else{
+            index=node.parent.children.indexOf(node);
+            node.parent.children.remove(node);
+        }
+        leftNode.parent = newParent;
+        rightNode.parent = newParent;
+        newParent.children.add(index,leftNode);
+        newParent.children.add(index+1,rightNode);
+        //不能直接添加，需要有序添加
+        //把这个entry添加到父节点
+        Map.Entry<K,V> entry=rightNode.entryList.get(0);
+        addEntryToParent(newParent,entry.getKey(),entry);
     }
     private void afterPut(Node<K, V> node) {
         if(node!=null&&node.children.size()>order){
@@ -156,47 +159,88 @@ public class BPlusTree <K,V>{
             rightNode.parent=newParent;
             newParent.children.add(index,leftNode);
             newParent.children.add(index+1,rightNode);
-            newParent.entryList.add(node.entryList.get(leftSize-1));
+            Map.Entry<K,V> entry=node.entryList.get(leftSize-1);
+            addEntryToParent(newParent,entry.getKey(),entry);
             afterPut(node.parent);
             node.entryList=null;
             node.parent=null;
             node.children=null;
         }
     }
+
+    private void addEntryToParent(Node<K,V> node,K key,Map.Entry<K,V> entry){
+        int low=0;
+        int high=node.entryList.size()-1;
+        int compareResult=0;
+
+        while(low<=high){
+            int mid=(low+high)/2;
+            compareResult=compare(key,node.entryList.get(mid).getKey());
+            if(compareResult>0){
+                low=mid+1;
+            }
+            else{
+                high=mid-1;
+            }
+        }
+        node.entryList.add(low,entry);
+    }
     public V remove(K key){
         if(root==null) return null;
         checkKeyNotNull(key);
         return remove(root,key);
     }
+    //如果自己能够删除，自己删除
     private boolean canRemoveBySelf(Node<K,V> self){
         if(self==null) return false;
         //最小需要的节点数是order/2向上取整-1
         int minSize=((int)Math.ceil((double)order/2))-1;
         return self.entryList.size()>minSize;
     }
+    //能否想node节点借一个节点过来删除
     private boolean canBorrowFromNode(Node<K,V> node){
         if(node==null) return false;
         int minSize=((int)Math.ceil((double)order/2))-1;
         return node.entryList.size()>minSize;
     }
+    //能否将node1和node2合并
     private boolean canMerge(Node<K,V> node1,Node<K,V> node2){
         if(node1==null||node2==null){
             return false;
         }
         return node1.entryList.size()+node2.entryList.size()<=order-1;
     }
+
     private V remove(Node<K,V> node,K key){
-        if(node==null) return null;
+        assert(node != null);
         if(node.isLeaf){
             if(node.isRoot||canRemoveBySelf(node)){
-                return remove0(node,key);
+                V v = remove0(node, key);
+                Node<K,V> parent=node.parent;
+                if(parent!=null&&v!=null){
+                    int index=parent.children.indexOf(node);
+                    int parentIndex=index-1;
+                    if(parent.entryList!=null&&parent.entryList.size()>0){
+                        if(parentIndex>=0&&parentIndex<parent.entryList.size()){
+                            Map.Entry<K, V> entry = parent.entryList.get(parentIndex);
+                            //如果自己能够删除，并且是第一个，需要用现在的第一个节点去替换掉父节点中相等的值
+                            if(entry.getKey().equals(key)){
+                                Map.Entry<K, V> entry1 = node.entryList.get(0);
+                                parent.entryList.set(parentIndex,entry1);
+                            }
+                        }
+                    }
+                }
+                return v;
             }
+
+
             if(node.prev!=null&&node.prev.parent==node.parent&&canBorrowFromNode(node.prev)){
                 int index=node.parent.children.indexOf(node.prev);
                 Map.Entry<K, V> prevEntry = node.prev.entryList.remove(node.prev.entryList.size() - 1);
                 V result=remove0(node,key);
                 node.entryList.add(0,prevEntry);
-                node.parent.entryList.set(index,node.prev.entryList.get(node.prev.entryList.size()-1));
+                node.parent.entryList.set(index,prevEntry);
                 return result;
             }
             if(node.next!=null&&node.next.parent==node.parent&&canBorrowFromNode(node.next)){
@@ -230,6 +274,7 @@ public class BPlusTree <K,V>{
                 int index=node.parent.children.indexOf(node);
                 node.parent.entryList.remove(index);
                 afterRemove(node.parent);
+                return result;
             }
             if(node.next!=null&&node.next.parent==node.parent&&canMerge(node.next,node)){
                 for(int i=0;i<node.next.entryList.size();i++){
@@ -238,6 +283,7 @@ public class BPlusTree <K,V>{
                 node.next.entryList=null;
                 node.next.parent=null;
                 node.parent.children.remove(node.next);
+
                 if (node.next.next != null) {
                     Node<K, V> temp = node.next;
                     node.next.next.prev=node;
@@ -252,37 +298,35 @@ public class BPlusTree <K,V>{
                 int index=node.parent.children.indexOf(node);
                 node.parent.entryList.remove(index);
                 afterRemove(node.parent);
+                return result;
             }
         }
-        else{
-            int compareResult=0;
-            compareResult=compare(key,node.entryList.get(0).getKey());
-            if(compareResult<0){
-                return remove(node.children.get(0),key);
-            }
-            compareResult=compare(key,node.entryList.get(node.entryList.size()-1).getKey());
-            if(compareResult>=0){
-                return remove(node.children.get(node.children.size()-1),key);
-            }
-            int low=0;
-            int high=node.entryList.size()-1;
-            int mid=0;
-            while(low<=high){
-                mid=(low+high)/2;
-                compareResult=compare(key,node.entryList.get(mid).getKey());
-                if(compareResult>0){
-                    low=mid+1;
-                }
-                else if(compareResult==0){
-                    return remove(node.children.get(mid+1),key);
-                }
-                else{
-                    high=mid-1;
-                }
-            }
-            return remove(node.children.get(low),key);
+        int compareResult=0;
+        compareResult=compare(key,node.entryList.get(0).getKey());
+        if(compareResult<0){
+            return remove(node.children.get(0),key);
         }
-        return null;
+        compareResult=compare(key,node.entryList.get(node.entryList.size()-1).getKey());
+        if(compareResult>=0){
+            return remove(node.children.get(node.children.size()-1),key);
+        }
+        int low=0;
+        int high=node.entryList.size()-1;
+        int mid=0;
+        while(low<=high){
+            mid=(low+high)/2;
+            compareResult=compare(key,node.entryList.get(mid).getKey());
+            if(compareResult>0){
+                low=mid+1;
+            }
+            else if(compareResult==0){
+                return remove(node.children.get(mid+1),key);
+            }
+            else{
+                high=mid-1;
+            }
+        }
+        return remove(node.children.get(low),key);
     }
     private int minChildSize(int order){
         return (int)Math.ceil((double) order/2);
@@ -293,9 +337,6 @@ public class BPlusTree <K,V>{
             return ;
         }
         if(node.children.size()<minChildSize(order)||node.children.size()<2){
-            /**
-             * 如果是根节点
-             */
             if(node.isRoot){
                 if(node.children.size()>=2){
                     return ;
@@ -309,7 +350,6 @@ public class BPlusTree <K,V>{
                 root=newRoot;
             }
             else{
-                //计算node节点的左后节点
                 int currentIndex= node.parent.children.indexOf(node);
                 int prevIndex=currentIndex-1;
                 int nextIndex=currentIndex+1;
@@ -367,7 +407,6 @@ public class BPlusTree <K,V>{
                     afterRemove(node.parent);
                     return;
                 }
-
                 // 同后面节点合并
                 else if (next != null&&next.parent==node.parent) {
                     for (int i = 0; i < next.children.size(); i++) {
@@ -394,7 +433,9 @@ public class BPlusTree <K,V>{
             }
         }
     }
-
+    public int size() {
+        return size;
+    }
     private void checkKeyNotNull(K key){
         if(key==null) throw new RuntimeException("key must not be null");
     }
@@ -420,11 +461,10 @@ public class BPlusTree <K,V>{
                 high=mid-1;
             }
         }
+        size++;
         node.entryList.add(low,new AbstractMap.SimpleEntry<K,V>(key,value));
         return null;
     }
-
-
     public V get(K key){
         if(root==null) return null;
         return search(root,key);
@@ -500,9 +540,23 @@ public class BPlusTree <K,V>{
         }
         return null;
     }
-    private int compare(K key1,K key2){
+    public int compare(K key1, K key2){
         return comparator!=null?comparator.compare(key1,key2):((Comparable)key1).compareTo(key2);
     }
+    public int minSize(int order){
+        return ((int) Math.ceil(order/2))-1;
+    }
+    public int maxSize(int order) {
+        return order - 1;
+    }
+    public int getOrder() {
+        return order;
+    }
+
+    public Node<K, V> getRoot() {
+        return root;
+    }
+
     static class Node<K,V> {
         boolean isLeaf;
         boolean isRoot;
@@ -518,6 +572,13 @@ public class BPlusTree <K,V>{
             if(!isLeaf){
                 this.children=new ArrayList<>();
             }
+        }
+    }
+    public void show(){
+        Node<K,V> node=head;
+        while(node!=null){
+            System.out.println("show");
+            node=node.next;
         }
     }
 }
