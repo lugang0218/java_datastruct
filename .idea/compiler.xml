@@ -10,12 +10,13 @@
         <module name="stack" />
         <module name="set" />
         <module name="tree" />
-        <module name="concurrent" />
         <module name="grap" />
         <module name="list" />
         <module name="search" />
+        <module name="database" />
         <module name="file" />
         <module name="nio" />
+        <module name="WordCount" />
         <module name="file-server" />
         <module name="page" />
         <module name="heap" />
@@ -27,28 +28,16 @@
       <module name="algorithm" target="8" />
       <module name="bfs" target="8" />
       <module name="chat" target="8" />
-      <module name="concurrent" target="1.8" />
-      <module name="database" target="1.5" />
-      <module name="datastruct" target="1.5" />
-      <module name="file" target="1.8" />
       <module name="file-server" target="8" />
-      <module name="grap" target="1.8" />
-      <module name="heap" target="1.8" />
+      <module name="hadoop" target="1.8" />
+      <module name="hadoop_test" target="1.8" />
       <module name="leetcode" target="8" />
-      <module name="list" target="1.8" />
-      <module name="map" target="1.8" />
-      <module name="nio" target="1.8" />
       <module name="page" target="8" />
-      <module name="queue" target="1.8" />
       <module name="rbtree" target="8" />
       <module name="reflection" target="8" />
       <module name="search" target="8" />
-      <module name="set" target="1.8" />
       <module name="sort" target="8" />
-      <module name="stack" target="1.8" />
       <module name="thread" target="8" />
-      <module name="thread-pattern" target="1.8" />
-      <module name="tree" target="1.8" />
       <module name="trie" target="8" />
       <module name="util" target="8" />
       <module name="window" target="8" />

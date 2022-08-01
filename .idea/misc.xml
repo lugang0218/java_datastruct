@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="MavenProjectsManager">
     <option name="originalFiles">
       <list>
@@ -13,18 +14,19 @@
         <option value="$PROJECT_DIR$/map/pom.xml" />
         <option value="$PROJECT_DIR$/set/pom.xml" />
         <option value="$PROJECT_DIR$/concurrent/pom.xml" />
-        <option value="$PROJECT_DIR$/../../source/Freedom-master/pom.xml" />
+        <option value="$USER_HOME$/source/Freedom-master/pom.xml" />
         <option value="$PROJECT_DIR$/file/pom.xml" />
         <option value="$PROJECT_DIR$/shearch/pom.xml" />
         <option value="$PROJECT_DIR$/file-server/pom.xml" />
         <option value="$PROJECT_DIR$/nio/pom.xml" />
         <option value="$PROJECT_DIR$/thread-pattern/pom.xml" />
         <option value="$PROJECT_DIR$/page/pom.xml" />
+        <option value="$PROJECT_DIR$/database/pom.xml" />
+        <option value="$PROJECT_DIR$/hadoop_test/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">
       <set>
-        <option value="$PROJECT_DIR$/database/pom.xml" />
         <option value="$PROJECT_DIR$/thread/pom.xml" />
       </set>
     </option>

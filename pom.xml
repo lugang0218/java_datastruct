@@ -15,11 +15,12 @@
         <module>map</module>
         <module>set</module>
         <module>stack</module>
-        <module>concurrent</module>
+        <module>database</module>
         <module>grap</module>
-        <module>file</module>
+        <module>hadoop_test</module>
         <module>nio</module>
         <module>thread-pattern</module>
+        <module>WordCount</module>
     </modules>
 
     <dependencies>
