@@ -6,12 +6,12 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="thread-pattern" />
         <module name="stack" />
         <module name="set" />
         <module name="tree" />
         <module name="grap" />
         <module name="list" />
+        <module name="bitset" />
         <module name="search" />
         <module name="nio" />
         <module name="file-server" />
@@ -37,6 +37,7 @@
       <module name="search" target="8" />
       <module name="sort" target="8" />
       <module name="thread" target="8" />
+      <module name="thread-pattern" target="1.8" />
       <module name="trie" target="8" />
       <module name="util" target="8" />
       <module name="window" target="8" />

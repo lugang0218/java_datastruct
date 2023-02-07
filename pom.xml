@@ -17,6 +17,7 @@
         <module>stack</module>
         <module>grap</module>
         <module>nio</module>
+        <module>bitset</module>
     </modules>
 
     <dependencies>
