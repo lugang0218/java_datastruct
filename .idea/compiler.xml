@@ -14,7 +14,6 @@
         <module name="list" />
         <module name="search" />
         <module name="nio" />
-        <module name="WordCount" />
         <module name="file-server" />
         <module name="page" />
         <module name="heap" />
@@ -41,6 +40,7 @@
       <module name="trie" target="8" />
       <module name="util" target="8" />
       <module name="window" target="8" />
+      <module name="WordCount" target="1.5" />
       <module name="xshell" target="8" />
     </bytecodeTargetLevel>
   </component>

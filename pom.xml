@@ -17,7 +17,6 @@
         <module>stack</module>
         <module>grap</module>
         <module>nio</module>
-        <module>thread-pattern</module>
     </modules>
 
     <dependencies>
