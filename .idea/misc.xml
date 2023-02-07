@@ -21,8 +21,6 @@
         <option value="$PROJECT_DIR$/nio/pom.xml" />
         <option value="$PROJECT_DIR$/thread-pattern/pom.xml" />
         <option value="$PROJECT_DIR$/page/pom.xml" />
-        <option value="$PROJECT_DIR$/database/pom.xml" />
-        <option value="$PROJECT_DIR$/hadoop_test/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">

@@ -13,8 +13,6 @@
         <module name="grap" />
         <module name="list" />
         <module name="search" />
-        <module name="database" />
-        <module name="file" />
         <module name="nio" />
         <module name="WordCount" />
         <module name="file-server" />
@@ -28,6 +26,8 @@
       <module name="algorithm" target="8" />
       <module name="bfs" target="8" />
       <module name="chat" target="8" />
+      <module name="database" target="1.8" />
+      <module name="file" target="1.8" />
       <module name="file-server" target="8" />
       <module name="hadoop" target="1.8" />
       <module name="hadoop_test" target="1.8" />
