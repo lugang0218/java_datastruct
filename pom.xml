@@ -18,7 +18,6 @@
         <module>grap</module>
         <module>nio</module>
         <module>thread-pattern</module>
-        <module>WordCount</module>
     </modules>
 
     <dependencies>
