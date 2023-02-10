@@ -3,6 +3,12 @@ import com.hubu.tree.bplustree.BPlusTree;
 import java.util.Comparator;
 public class BTreeMap<K,V> {
     private BPlusTree<K,V> map;
+
+
+
+
+    /////for disk
+    private String writeToString;
     public BTreeMap(int order, Comparator<K> comparator){
         map = new BPlusTree<>(order,comparator);
     }
