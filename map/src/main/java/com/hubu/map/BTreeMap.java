@@ -8,7 +8,7 @@ public class BTreeMap<K,V> {
 
 
     /////for disk
-    private String writeToString;
+    private String writeToString; /////nett
     public BTreeMap(int order, Comparator<K> comparator){
         map = new BPlusTree<>(order,comparator);
     }
